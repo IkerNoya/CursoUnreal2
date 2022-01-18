@@ -12,14 +12,17 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CURSOUNREAL2_API UOpenDoor : public UActorComponent
 {
 	GENERATED_BODY()
-	float TargetYaw = 0.f;
+	float TargetOpenedDoorYaw = 0.f;
+	float TargetClosedDoorYaw = 0.f;
 	float InitialYaw = 0.f;
 	float CurrentYaw=0.f;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Speed)
 	float OpenedAngle = 90.f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Speed)
-	float DegreesPerSecond = 45;
+	float DegreesPerSecondWhenOpening = 45;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Speed)
+	float DegreesPerSecondWhenClosing = 45;
 	UPROPERTY(EditAnywhere, category = Door)
 	ATriggerVolume* PreassurePlate;
 	UPROPERTY(EditAnywhere, Category = Instigator)
@@ -37,5 +40,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void OpenDoor(float DeltaTime);
+	void CloseDoor(float DeltaTime);
 		
 };
