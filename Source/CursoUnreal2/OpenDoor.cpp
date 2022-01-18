@@ -26,6 +26,16 @@ void UOpenDoor::BeginPlay()
 	TargetYaw = InitialYaw + OpenedAngle;
 	
 	ActorThatOpen = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+
+	if(!PreassurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("No preassure plate has been assigned"))
+	}
+	
+	if(!ActorThatOpen)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Pawn actor couldn't be found"))
+	}
 }
 
 
@@ -34,7 +44,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(IsValid(ActorThatOpen) && PreassurePlate->IsOverlappingActor(ActorThatOpen))
+	if(IsValid(ActorThatOpen) && IsValid(PreassurePlate) && PreassurePlate->IsOverlappingActor(ActorThatOpen))
 	{
 		OpenDoor(DeltaTime);
 	}
