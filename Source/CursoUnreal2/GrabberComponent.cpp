@@ -64,7 +64,8 @@ void UGrabberComponent::Grab()
 {
 	FHitResult Hit = GetFirstPhysicsBodyInReach();
 	UPrimitiveComponent* ComponentToGrab = Hit.GetComponent();
-	if(PhysicsHandle && ComponentToGrab && Hit.GetActor())
+	AActor* Actor = Hit.GetActor();
+	if(PhysicsHandle && ComponentToGrab && Actor)
 	{
 		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, GetPlayerReach(), Hit.GetActor()->GetActorRotation());
 	}

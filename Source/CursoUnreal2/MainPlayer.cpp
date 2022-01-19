@@ -36,18 +36,17 @@ void AMainPlayer::Tick(float DeltaTime)
 void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
-	PlayerInputComponent->BindAxis("Forward", this, &AMainPlayer::MoveForward);
-	PlayerInputComponent->BindAxis("Right", this, &AMainPlayer::MoveRight);
-	PlayerInputComponent->BindAxis("Turn", this, &AMainPlayer::Turn);
-	PlayerInputComponent->BindAxis("LookUp", this, &AMainPlayer::LookUp);
+	if(PlayerInputComponent)
+	{
+		PlayerInputComponent->BindAxis("Forward", this, &AMainPlayer::MoveForward);
+		PlayerInputComponent->BindAxis("Right", this, &AMainPlayer::MoveRight);
+		PlayerInputComponent->BindAxis("Turn", this, &AMainPlayer::Turn);
+		PlayerInputComponent->BindAxis("LookUp", this, &AMainPlayer::LookUp);
 
-	PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
-	PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
-	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);
-
-	
-
+		PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
+		PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
+		PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);	
+	}
 }
 
 void AMainPlayer::MoveForward(float Value)

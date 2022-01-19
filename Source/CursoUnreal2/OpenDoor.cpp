@@ -5,6 +5,7 @@
 
 #include <Actor.h>
 
+#include "../../Plugins/Developer/RiderLink/Source/RD/thirdparty/clsocket/src/ActiveSocket.h"
 #include "Kismet/GameplayStatics.h"
 
 #define OUT
@@ -81,10 +82,15 @@ float UOpenDoor::TotalMassOfActors() const
 	PreassurePlate->GetOverlappingActors(OUT ActorsOverlapping);
 	for(AActor* Actor : ActorsOverlapping)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ACTOR: %f"), Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass());
-		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+		if(Actor)
+		{
+			UPrimitiveComponent* Component = Actor->FindComponentByClass<UPrimitiveComponent>();
+			if(Component)
+			{
+				TotalMass+=Component->GetMass();
+			}
+		}
 	}
-	
 	return TotalMass;
 }
 
