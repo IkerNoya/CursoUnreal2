@@ -3,14 +3,13 @@
 
 #include "DoorComponentBase.h"
 
+#include "Components/AudioComponent.h"
+
 // Sets default values for this component's properties
 UDoorComponentBase::UDoorComponentBase()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	
 }
 
 
@@ -19,16 +18,31 @@ void UDoorComponentBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	InitialYaw = GetOwner()->GetActorRotation().Yaw;
+	CurrentYaw=InitialYaw;
+	TargetOpenedDoorYaw = InitialYaw + OpenedAngle;
+	
+	FindAudioComponent();
 	
 }
 
-
-// Called every frame
-void UDoorComponentBase::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UDoorComponentBase::FindAudioComponent()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	DoorSound = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if(!DoorSound)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couln't find audio component in actor: %s"), *GetOwner()->GetName());
+	}
 }
+
+void UDoorComponentBase::OpenDoor()
+{
+	
+}
+
+void UDoorComponentBase::CloseDoor()
+{
+	
+}
+
 
