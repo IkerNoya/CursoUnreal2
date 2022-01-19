@@ -15,7 +15,6 @@ class CURSOUNREAL2_API UDoorComponentBase : public UActorComponent
 
 	bool bOpenDoorSound = false;
 	bool bCloseDoorSound = true;
-	bool bShouldOpenDoor = false;
 
 	float InitialYaw = 0.f;
 	float CurrentYaw=0.f;
@@ -30,6 +29,9 @@ protected:
 	UPROPERTY(EditAnywhere, category = Audio)
 	UAudioComponent* DoorSound;
 
+
+	bool bShouldOpenDoor = false;
+
 public:	
 	// Sets default values for this component's properties
 	UDoorComponentBase();
@@ -40,8 +42,13 @@ protected:
 
 	void FindAudioComponent();
 	
-	virtual void OpenDoor();
-	virtual void CloseDoor();
+	virtual void OpenDoor(float DeltaTime);
+	virtual void CloseDoor(float DeltaTime);
 
+	virtual void OpenDoorLogic(float DeltaTime);
+	virtual void CloseDoorLogic(float DeltaTime);
+	
+public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 		
 };

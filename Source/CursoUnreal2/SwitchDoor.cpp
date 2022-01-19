@@ -2,8 +2,3 @@
 
 
 #include "SwitchDoor.h"
-
-void USwitchDoor::SwitchActivated()
-{
-	OpenDoor();
-}

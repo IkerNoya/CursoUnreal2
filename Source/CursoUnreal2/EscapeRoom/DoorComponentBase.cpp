@@ -35,14 +35,56 @@ void UDoorComponentBase::FindAudioComponent()
 	}
 }
 
-void UDoorComponentBase::OpenDoor()
+void UDoorComponentBase::OpenDoor(float DeltaTime)
 {
-	
+	OpenDoorLogic(DeltaTime);
+	if(DoorSound && !bOpenDoorSound)
+	{
+		DoorSound->Play();
+		bOpenDoorSound=true;
+		bCloseDoorSound=false;
+	}
 }
 
-void UDoorComponentBase::CloseDoor()
+void UDoorComponentBase::CloseDoor(float DeltaTime)
 {
-	
+	CloseDoorLogic(DeltaTime);
+	if(DoorSound &&  !bCloseDoorSound)
+	{
+		DoorSound->Play();
+		bCloseDoorSound=true;
+		bOpenDoorSound=false;
+	}
+}
+
+void UDoorComponentBase::OpenDoorLogic(float DeltaTime)
+{
+	CurrentYaw = FMath::Lerp(CurrentYaw, TargetOpenedDoorYaw, DeltaTime * OpeningSpeed);
+	FRotator DoorRotation = GetOwner()->GetActorRotation();
+	DoorRotation.Yaw = CurrentYaw;
+	GetOwner()->SetActorRotation(DoorRotation);
+}
+
+void UDoorComponentBase::CloseDoorLogic(float DeltaTime)
+{
+	CurrentYaw = FMath::Lerp(CurrentYaw, InitialYaw, DeltaTime * OpeningSpeed);
+	FRotator DoorRotation = GetOwner()->GetActorRotation();
+	DoorRotation.Yaw = CurrentYaw;
+	GetOwner()->SetActorRotation(DoorRotation);
+}
+
+void UDoorComponentBase::TickComponent(float DeltaTime, ELevelTick TickType,
+                                       FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if(bShouldOpenDoor)
+	{
+		OpenDoor(DeltaTime);
+	}
+	else
+	{
+		CloseDoor(DeltaTime);
+	}
 }
 
 
