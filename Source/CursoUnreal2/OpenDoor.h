@@ -19,6 +19,8 @@ class CURSOUNREAL2_API UOpenDoor : public UActorComponent
 	float CurrentYaw=0.f;
 	float DoorLastOpened=0.f;
 
+	
+	
 protected:
 	UPROPERTY(EditAnywhere, Category = Door)
 	float OpenedAngle = 90.f;
@@ -28,6 +30,12 @@ protected:
 	float DegreesPerSecondWhenClosing = 45;
 	UPROPERTY(EditAnywhere, Category = Door)
 	float TimeToCloseDoor=2.f;
+	UPROPERTY(EditAnywhere, Category = Door)
+	float MassToOpenDoor=50.f;
+
+	UPROPERTY(EditAnywhere, Category=Door)
+	bool bShouldPlayerOpenDoor=true;
+
 	
 	UPROPERTY(EditAnywhere, category = Door)
 	ATriggerVolume* PreassurePlate;
@@ -48,5 +56,7 @@ public:
 
 	void OpenDoor(float DeltaTime);
 	void CloseDoor(float DeltaTime);
+
+	float TotalMassOfActors() const;
 		
 };

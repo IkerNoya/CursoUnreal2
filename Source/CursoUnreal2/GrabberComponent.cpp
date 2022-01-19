@@ -3,6 +3,8 @@
 
 #include "GrabberComponent.h"
 
+#include "GameFramework/GameSession.h"
+
 #define OUT // No hace nada, le agrega legibilidad
 
 UGrabberComponent::UGrabberComponent()
@@ -30,26 +32,31 @@ void UGrabberComponent::FindPhysicsHandle()
 
 FHitResult UGrabberComponent::GetFirstPhysicsBodyInReach()
 {
-	
 	FHitResult Hit;
 	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, LineTraceEnd, FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), TraceParams);
+	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, GetPlayerReach(), FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), TraceParams);
 
 	return Hit;
-
 }
 
+FVector UGrabberComponent::GetPlayerReach() const
+{
+	return PlayerLocation + PlayerRotation.Vector() * Reach;
+}
+
+void UGrabberComponent::SetPlayerLocationAndRotation() 
+{
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerLocation, OUT PlayerRotation);
+}
 
 void UGrabberComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerLocation,OUT PlayerRotation);
-	LineTraceEnd = PlayerLocation + PlayerRotation.Vector() * Reach;
-	
+	SetPlayerLocationAndRotation();
 	if(PhysicsHandle && PhysicsHandle->GetGrabbedComponent())
 	{
-		PhysicsHandle->SetTargetLocation(LineTraceEnd);
+		PhysicsHandle->SetTargetLocation(GetPlayerReach());
 	}
 }
 
@@ -59,7 +66,7 @@ void UGrabberComponent::Grab()
 	UPrimitiveComponent* ComponentToGrab = Hit.GetComponent();
 	if(PhysicsHandle && ComponentToGrab && Hit.GetActor())
 	{
-		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, LineTraceEnd, PlayerRotation);
+		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, GetPlayerReach(), Hit.GetActor()->GetActorRotation());
 	}
 }
 

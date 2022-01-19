@@ -3,8 +3,11 @@
 
 #include "OpenDoor.h"
 
+#include <Actor.h>
+
 #include "Kismet/GameplayStatics.h"
 
+#define OUT
 
 UOpenDoor::UOpenDoor()
 {
@@ -19,6 +22,7 @@ void UOpenDoor::BeginPlay()
 	InitialYaw = GetOwner()->GetActorRotation().Yaw;
 	CurrentYaw=InitialYaw;
 	TargetOpenedDoorYaw = InitialYaw + OpenedAngle;
+
 	
 	ActorThatOpen = GetWorld()->GetFirstPlayerController()->GetPawn();
 
@@ -37,7 +41,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(IsValid(ActorThatOpen) && IsValid(PreassurePlate) && PreassurePlate->IsOverlappingActor(ActorThatOpen))
+	if(TotalMassOfActors()>MassToOpenDoor)
 	{
 		OpenDoor(DeltaTime);
 		DoorLastOpened = GetWorld()->GetTimeSeconds();
@@ -68,5 +72,19 @@ void UOpenDoor::CloseDoor(float DeltaTime)
 	FRotator DoorRotation = GetOwner()->GetActorRotation();
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
+}
+
+float UOpenDoor::TotalMassOfActors() const
+{
+	float TotalMass = 0.f;
+	TArray<AActor*> ActorsOverlapping;
+	PreassurePlate->GetOverlappingActors(OUT ActorsOverlapping);
+	for(AActor* Actor : ActorsOverlapping)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ACTOR: %f"), Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass());
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	}
+	
+	return TotalMass;
 }
 
