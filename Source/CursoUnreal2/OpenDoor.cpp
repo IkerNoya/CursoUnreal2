@@ -6,14 +6,9 @@
 #include "Kismet/GameplayStatics.h"
 
 
-// Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -38,8 +33,6 @@ void UOpenDoor::BeginPlay()
 	}
 }
 
-
-// Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -47,10 +40,14 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	if(IsValid(ActorThatOpen) && IsValid(PreassurePlate) && PreassurePlate->IsOverlappingActor(ActorThatOpen))
 	{
 		OpenDoor(DeltaTime);
+		DoorLastOpened = GetWorld()->GetTimeSeconds();
 	}
 	else
 	{
-		CloseDoor(DeltaTime);
+		if(GetWorld()->GetTimeSeconds() - DoorLastOpened > TimeToCloseDoor)
+		{
+			CloseDoor(DeltaTime);
+		}
 	}
 }
 
