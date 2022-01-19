@@ -3,9 +3,8 @@
 
 #include "OpenDoor.h"
 
-#include <Actor.h>
-
-#include "../../Plugins/Developer/RiderLink/Source/RD/thirdparty/clsocket/src/ActiveSocket.h"
+#include "Actor.h"
+#include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 #define OUT
@@ -24,17 +23,27 @@ void UOpenDoor::BeginPlay()
 	CurrentYaw=InitialYaw;
 	TargetOpenedDoorYaw = InitialYaw + OpenedAngle;
 
-	
-	ActorThatOpen = GetWorld()->GetFirstPlayerController()->GetPawn();
+	FindAudioComponent();
+	CheckIfPreassurePlateExists();
 
+	
+}
+
+void UOpenDoor::FindAudioComponent()
+{
+	DoorSound = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if(!DoorSound)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find audio component in Actor: %s"), *GetOwner()->GetName())
+	}
+	
+}
+
+void UOpenDoor::CheckIfPreassurePlateExists()
+{
 	if(!PreassurePlate)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No preassure plate has been assigned"))
-	}
-	
-	if(!ActorThatOpen)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Pawn actor couldn't be found"))
 	}
 }
 
@@ -59,12 +68,16 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
 	CurrentYaw = FMath::FInterpConstantTo(CurrentYaw, TargetOpenedDoorYaw, DeltaTime, DegreesPerSecondWhenOpening);
-	
 	FRotator DoorRotation = GetOwner()->GetActorRotation();
-
 	DoorRotation.Yaw = CurrentYaw;
-
 	GetOwner()->SetActorRotation(DoorRotation);
+
+	if(DoorSound && !OpenDoorSound)
+	{
+		DoorSound->Play();
+		OpenDoorSound=true;
+		CloseDoorSound=false;
+	}
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime)
@@ -73,12 +86,24 @@ void UOpenDoor::CloseDoor(float DeltaTime)
 	FRotator DoorRotation = GetOwner()->GetActorRotation();
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
+	
+	if(DoorSound &&  !CloseDoorSound)
+	{
+		DoorSound->Play();
+		CloseDoorSound=true;
+		OpenDoorSound=false;
+	}
 }
 
 float UOpenDoor::TotalMassOfActors() const
 {
 	float TotalMass = 0.f;
 	TArray<AActor*> ActorsOverlapping;
+	if(!PreassurePlate)
+	{
+		return TotalMass;
+	}
+	
 	PreassurePlate->GetOverlappingActors(OUT ActorsOverlapping);
 	for(AActor* Actor : ActorsOverlapping)
 	{

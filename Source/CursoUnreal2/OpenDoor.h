@@ -19,7 +19,8 @@ class CURSOUNREAL2_API UOpenDoor : public UActorComponent
 	float CurrentYaw=0.f;
 	float DoorLastOpened=0.f;
 
-	
+	bool OpenDoorSound = false;
+	bool CloseDoorSound = true;
 	
 protected:
 	UPROPERTY(EditAnywhere, Category = Door)
@@ -39,9 +40,10 @@ protected:
 	
 	UPROPERTY(EditAnywhere, category = Door)
 	ATriggerVolume* PreassurePlate;
-	
-	UPROPERTY(EditAnywhere, Category = Instigator)
-	AActor* ActorThatOpen;
+
+	UPROPERTY(EditAnywhere, category = Audio)
+	UAudioComponent* DoorSound;
+
 public:	
 	// Sets default values for this component's properties
 	UOpenDoor();
@@ -49,7 +51,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
+	void FindAudioComponent();
+	void CheckIfPreassurePlateExists();
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
