@@ -8,6 +8,9 @@
 // Sets default values for this component's properties
 UDoorComponentBase::UDoorComponentBase()
 {
+	//HACERLO KISS Y RESPONSABILIDAD UNICA
+	//PATRONES DE DISEÑO
+	//NO PENSAR EN UNITY, "COMO ES HACE EN UNREAL"
 	PrimaryComponentTick.bCanEverTick = true;
 	
 }
@@ -31,7 +34,7 @@ void UDoorComponentBase::FindAudioComponent()
 	DoorSound = GetOwner()->FindComponentByClass<UAudioComponent>();
 	if(!DoorSound)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Couln't find audio component in actor: %s"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find audio component in actor: %s"), *GetOwner()->GetName());
 	}
 }
 

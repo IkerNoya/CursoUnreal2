@@ -27,7 +27,6 @@ void APreassurePlate::BeginPlay()
 
 void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("HOLA"))
 	if(TotalMassOfActorsOverlapping()>=MassToActivate)
 	{
 		DoorComponent->ActivateDoor(true);
@@ -40,12 +39,7 @@ void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 
 void APreassurePlate::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("HOLA"))
-	if(TotalMassOfActorsOverlapping()>=MassToActivate)
-	{
-		DoorComponent->ActivateDoor(true);
-	}
-	else
+	if(TotalMassOfActorsOverlapping()<MassToActivate)
 	{
 		DoorComponent->ActivateDoor(false);
 	}
@@ -67,6 +61,5 @@ float APreassurePlate::TotalMassOfActorsOverlapping()
 			}
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("MASS: %f"), Mass);
 	return Mass;
 }
