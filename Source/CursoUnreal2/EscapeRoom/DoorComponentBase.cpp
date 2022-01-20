@@ -88,9 +88,9 @@ void UDoorComponentBase::TickComponent(float DeltaTime, ELevelTick TickType,
 	}
 }
 
-void UDoorComponentBase::ActivateDoor()
+void UDoorComponentBase::ActivateDoor(bool bShouldActivate)
 {
-	bShouldOpenDoor=!bShouldOpenDoor;
+	bShouldOpenDoor=bShouldActivate;
 }
 
 

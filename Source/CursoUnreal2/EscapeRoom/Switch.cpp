@@ -51,7 +51,14 @@ void ASwitch::ActivateActor()
 		if(DoorComponent)
 		{
 			AnimateSwitch();
-			DoorComponent->ActivateDoor();
+			if(!DoorComponent->bShouldOpenDoor)
+			{
+				DoorComponent->ActivateDoor(true);
+			}
+			else
+			{
+				DoorComponent->ActivateDoor(false);
+			}
 		}
 	}
 }

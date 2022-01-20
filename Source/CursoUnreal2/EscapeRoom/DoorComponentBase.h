@@ -29,10 +29,9 @@ protected:
 	UPROPERTY(EditAnywhere, category = Audio)
 	UAudioComponent* DoorSound;
 
-
+public:
 	bool bShouldOpenDoor = false;
 
-public:	
 	// Sets default values for this component's properties
 	UDoorComponentBase();
 
@@ -51,7 +50,7 @@ protected:
 	
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	virtual void ActivateDoor();
+	virtual void ActivateDoor(bool bShouldActivate);
 
 		
 };

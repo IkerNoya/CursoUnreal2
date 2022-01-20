@@ -20,6 +20,12 @@ void UInteractable::BeginPlay()
 	
 }
 
+void UInteractable::BeginDestroy()
+{
+	OnInteract.Clear();
+	Super::BeginDestroy();
+}
+
 void UInteractable::ActivateActor()
 {
 	OnInteract.Broadcast();
