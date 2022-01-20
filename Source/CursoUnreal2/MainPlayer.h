@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GrabberComponent.h"
+#include "EscapeRoom/InteractComponent.h"
 #include "GameFramework/Character.h"
 #include "MainPlayer.generated.h"
 
@@ -14,6 +15,8 @@ class CURSOUNREAL2_API AMainPlayer : public ACharacter
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UGrabberComponent* Grabber;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
+	UInteractComponent* InteractComponent;
 public:
 	// Sets default values for this character's properties
 	AMainPlayer();

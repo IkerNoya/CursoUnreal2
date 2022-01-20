@@ -12,6 +12,7 @@ AMainPlayer::AMainPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	Grabber = CreateDefaultSubobject<UGrabberComponent>(TEXT("Grabber"));
+	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("Interact"));
 }
 
 void AMainPlayer::PostInitializeComponents()
@@ -114,23 +115,9 @@ void AMainPlayer::Drop()
 
 void AMainPlayer::Interact()
 {
-	FHitResult Hit;
-	FVector Location;
-	FRotator Rotation;
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT Location, OUT Rotation);
-	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-	if(GetWorld()->LineTraceSingleByObjectType(Hit, Location, Location + Rotation.Vector() * 150, FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic), TraceParams))
+	if(InteractComponent)
 	{
-		AActor* Actor = Hit.GetActor();
-		if(Actor)
-		{
-			UInteractable* Interactable = Actor->FindComponentByClass<UInteractable>();
-			if(Interactable)
-			{
-				Interactable->ActivateActor();
-			}
-			
-		}
-	}
+		InteractComponent->Interact();
+	}	
 }
 

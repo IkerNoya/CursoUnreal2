@@ -45,7 +45,6 @@ void ASwitch::Tick(float DeltaTime)
 }
 void ASwitch::ActivateActor()
 {
-	UE_LOG(LogTemp, Warning, TEXT("LO LOGRE"));
 	if(ActorToActivate)
 	{
 		UDoorComponentBase* DoorComponent = ActorToActivate->FindComponentByClass<UDoorComponentBase>();
