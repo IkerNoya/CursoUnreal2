@@ -15,13 +15,13 @@ class CURSOUNREAL2_API ASwitch : public AActor
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Components)
 	UInteractable* InteractableComponent;
-	UPROPERTY(EditAnywhere, Category=Components)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category=Collision)
 	UBoxComponent* Box;
-	UPROPERTY(EditAnywhere, Category=Components)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category=Components)
 	UStaticMeshComponent* SwitchBase;
-	UPROPERTY(EditAnywhere, Category=Components)
-	UStaticMeshComponent* Lever;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Components)
+	UStaticMeshComponent* Button;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Door)
 	AActor* ActorToActivate;
 	
@@ -34,6 +34,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Animation)
+	void AnimateSwitch();
 
 public:	
 	// Called every frame
