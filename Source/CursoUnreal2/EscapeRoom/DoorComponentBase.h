@@ -47,8 +47,11 @@ protected:
 
 	virtual void OpenDoorLogic(float DeltaTime);
 	virtual void CloseDoorLogic(float DeltaTime);
+
 	
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void ActivateDoor();
+
 		
 };

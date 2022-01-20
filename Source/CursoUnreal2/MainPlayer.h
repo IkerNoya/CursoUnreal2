@@ -39,4 +39,6 @@ public:
 	void Grab();
 	void Drop();
 
+	void Interact();
+
 };

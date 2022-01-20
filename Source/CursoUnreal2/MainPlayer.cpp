@@ -3,6 +3,7 @@
 
 #include "MainPlayer.h"
 
+#include "EscapeRoom/Interactable.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -46,6 +47,7 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
 		PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
 		PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);	
+		PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainPlayer::Interact);	
 	}
 }
 
@@ -107,6 +109,28 @@ void AMainPlayer::Drop()
 	if(Grabber)
 	{
 		Grabber->Drop();
+	}
+}
+
+void AMainPlayer::Interact()
+{
+	FHitResult Hit;
+	FVector Location;
+	FRotator Rotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT Location, OUT Rotation);
+	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
+	if(GetWorld()->LineTraceSingleByObjectType(Hit, Location, Location + Rotation.Vector() * 150, FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic), TraceParams))
+	{
+		AActor* Actor = Hit.GetActor();
+		if(Actor)
+		{
+			UInteractable* Interactable = Actor->FindComponentByClass<UInteractable>();
+			if(Interactable)
+			{
+				Interactable->ActivateActor();
+			}
+			
+		}
 	}
 }
 
