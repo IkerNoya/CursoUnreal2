@@ -14,18 +14,25 @@ UCLASS()
 class CURSOUNREAL2_API APreassurePlate : public ATriggerBox
 {
 	GENERATED_BODY()
-	
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	float MassToActivate=50.f;
+	float MassToActivate = 50.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	AActor* ActorToActivate = nullptr;
 
-	virtual void BeginPlay() override;
 public:
 	APreassurePlate();
 
-	virtual void Tick(float DeltaSeconds) override;
+protected:
+	virtual void PostInitializeComponents() override;
+
+	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
+	UFUNCTION()
+	void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 
 private:
 	float TotalMassOfActorsOverlapping();

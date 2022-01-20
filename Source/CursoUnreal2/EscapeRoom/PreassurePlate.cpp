@@ -3,6 +3,18 @@
 
 #include "PreassurePlate.h"
 
+APreassurePlate::APreassurePlate()
+{
+}
+
+
+void APreassurePlate::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	OnActorBeginOverlap.AddDynamic(this, &APreassurePlate::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(this, &APreassurePlate::OnOverlapEnd);
+}
+
 void APreassurePlate::BeginPlay()
 {
 	Super::BeginPlay();
@@ -13,15 +25,9 @@ void APreassurePlate::BeginPlay()
 	}
 }
 
-APreassurePlate::APreassurePlate()
+void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-	
-}
-
-
-void APreassurePlate::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
+	UE_LOG(LogTemp, Warning, TEXT("HOLA"))
 	if(TotalMassOfActorsOverlapping()>=MassToActivate)
 	{
 		DoorComponent->ActivateDoor(true);
@@ -32,6 +38,18 @@ void APreassurePlate::Tick(float DeltaSeconds)
 	}
 }
 
+void APreassurePlate::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+	UE_LOG(LogTemp, Warning, TEXT("HOLA"))
+	if(TotalMassOfActorsOverlapping()>=MassToActivate)
+	{
+		DoorComponent->ActivateDoor(true);
+	}
+	else
+	{
+		DoorComponent->ActivateDoor(false);
+	}
+}
 
 float APreassurePlate::TotalMassOfActorsOverlapping()
 {
@@ -49,5 +67,6 @@ float APreassurePlate::TotalMassOfActorsOverlapping()
 			}
 		}
 	}
+	UE_LOG(LogTemp, Warning, TEXT("MASS: %f"), Mass);
 	return Mass;
 }

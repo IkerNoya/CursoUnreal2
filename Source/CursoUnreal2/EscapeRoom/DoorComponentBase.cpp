@@ -37,7 +37,6 @@ void UDoorComponentBase::FindAudioComponent()
 
 void UDoorComponentBase::OpenDoor(float DeltaTime)
 {
-	UE_LOG(LogTemp, Warning, TEXT("ABRI PAPA"));
 	OpenDoorLogic(DeltaTime);
 	if(DoorSound && !bOpenDoorSound)
 	{
