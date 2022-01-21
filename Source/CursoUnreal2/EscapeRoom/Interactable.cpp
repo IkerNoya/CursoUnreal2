@@ -10,16 +10,6 @@ UInteractable::UInteractable()
 
 }
 
-
-// Called when the game starts
-void UInteractable::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
 void UInteractable::BeginDestroy()
 {
 	OnInteract.Clear();

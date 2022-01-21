@@ -3,6 +3,8 @@
 
 #include "SwitchBase.h"
 
+#include "Kismet/GameplayStatics.h"
+
 ASwitchBase::ASwitchBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -31,6 +33,10 @@ void ASwitchBase::PostInitializeComponents()
 
 void ASwitchBase::ActivateSwitch()
 {
+	if(ButtonSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());
+	}
 	//funcionalidad a activar en hijos
 }
 

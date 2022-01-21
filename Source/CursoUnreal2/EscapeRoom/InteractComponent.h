@@ -12,12 +12,21 @@ class CURSOUNREAL2_API UInteractComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	FVector PlayerLocation;
+	FRotator PlayerRotation;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Settings)
 	float InteractDistance = 50.f;
+
+public:
+	UInteractComponent();
+private:
+	void FindPlayerLocationAndRotation();
+	FVector CalculateLineTraceEnd();
 public:	
 	// Sets default values for this component's properties
-	UInteractComponent();
+
 	
 	void Interact();
 };
