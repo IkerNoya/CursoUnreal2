@@ -18,11 +18,7 @@ void APreassurePlate::PostInitializeComponents()
 void APreassurePlate::BeginPlay()
 {
 	Super::BeginPlay();
-	DoorComponent = ActorToActivate->FindComponentByClass<UDoorComponentBase>();
-	if(!DoorComponent)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't Find component in actor: %s"), *ActorToActivate->GetName());
-	}
+
 }
 
 void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)

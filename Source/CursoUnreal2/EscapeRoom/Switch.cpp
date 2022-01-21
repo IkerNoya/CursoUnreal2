@@ -3,6 +3,7 @@
 
 #include "Switch.h"
 
+#include "DoorBase.h"
 #include "Interactable.h"
 
 // Sets default values
@@ -34,7 +35,7 @@ void ASwitch::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	InteractableComponent->OnInteract.AddDynamic(this, &ASwitch::ActivateActor);
+	InteractableComponent->OnInteract.AddDynamic(this, &ASwitch::ActivateDoor);
 }
 
 // Called every frame
@@ -43,22 +44,14 @@ void ASwitch::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-void ASwitch::ActivateActor()
+void ASwitch::ActivateDoor()
 {
 	if(ActorToActivate)
 	{
-		UDoorComponentBase* DoorComponent = ActorToActivate->FindComponentByClass<UDoorComponentBase>();
-		if(DoorComponent)
+		ADoorBase* Door = Cast<ADoorBase>(ActorToActivate);
+		if(Door)
 		{
-			AnimateSwitch();
-			if(!DoorComponent->bShouldOpenDoor)
-			{
-				DoorComponent->ActivateDoor(true);
-			}
-			else
-			{
-				DoorComponent->ActivateDoor(false);
-			}
+			Door->TryInteractWithDoor();
 		}
 	}
 }
