@@ -18,8 +18,7 @@ ADoorBase::ADoorBase()
 
 void ADoorBase::UpdateTimeline(float Output)
 {
-	FRotator NewRotation = {0.f, Output, 0.f};
-	Door->SetRelativeRotation(NewRotation);
+	DoorOpeningLogic(Output);
 }
 
 void ADoorBase::BeginPlay()
@@ -27,22 +26,23 @@ void ADoorBase::BeginPlay()
 	Super::BeginPlay();
 	UpdateFunctionFloat.BindDynamic(this, &ADoorBase::UpdateTimeline);
 
-	if(DoorTimelineFloatCurve)
+	if (DoorTimelineFloatCurve)
 	{
 		DoorTimeline->AddInterpFloat(DoorTimelineFloatCurve, UpdateFunctionFloat);
 	}
 }
 
-void ADoorBase::Tick(float DeltaTime)
+void ADoorBase::DoorOpeningLogic(float Value)
 {
-	Super::Tick(DeltaTime);
+	FRotator NewRotation = {0.f, Value, 0.f};
+	Door->SetRelativeRotation(NewRotation);
 }
 
 void ADoorBase::TryInteractWithDoor()
 {
 	if (!bIsDoorLocked)
 	{
-		if(!bIsDoorOpen)
+		if (!bIsDoorOpen)
 		{
 			OpenDoor();
 		}
@@ -55,22 +55,22 @@ void ADoorBase::TryInteractWithDoor()
 
 void ADoorBase::OpenDoor()
 {
-		if (DoorSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
-		}
-		DoorTimeline->Play();
-		bIsDoorOpen=true;
+	if (DoorSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
+	}
+	DoorTimeline->Play();
+	bIsDoorOpen = true;
 }
 
 void ADoorBase::CloseDoor()
 {
-		if (DoorSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
-		}
-		DoorTimeline->Reverse();
-		bIsDoorOpen=false;
+	if (DoorSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
+	}
+	DoorTimeline->Reverse();
+	bIsDoorOpen = false;
 }
 
 void ADoorBase::Unlock()

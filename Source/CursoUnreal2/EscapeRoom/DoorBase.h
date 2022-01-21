@@ -44,9 +44,11 @@ private:
 	
 protected:
 	virtual void BeginPlay() override;
+	//Define forma en la que la puerta se abre visualmente
+	//Si se quiere cambiar la forma en la que se abre, se debe usar otra curva que la represente
+	virtual void DoorOpeningLogic(float Value);
 	
 public:	
-	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION(BlueprintCallable)
 	void TryInteractWithDoor();

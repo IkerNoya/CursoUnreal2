@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DoorComponentBase.h"
+#include "DoorBase.h"
 #include "Engine/TriggerBox.h"
 #include "PreassurePlate.generated.h"
 
@@ -19,7 +19,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	float MassToActivate = 50.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-	AActor* ActorToActivate = nullptr;
+	ADoorBase* DoorToActivate = nullptr;
 
 public:
 	APreassurePlate();
@@ -35,7 +35,5 @@ protected:
 	void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 
 private:
-	float TotalMassOfActorsOverlapping();
-	UPROPERTY()
-	UDoorComponentBase* DoorComponent = nullptr;
+	bool IsCurrentMassEnoughToActivate();
 };

@@ -23,25 +23,21 @@ void APreassurePlate::BeginPlay()
 
 void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(TotalMassOfActorsOverlapping()>=MassToActivate)
+	if(DoorToActivate && IsCurrentMassEnoughToActivate())
 	{
-		DoorComponent->ActivateDoor(true);
-	}
-	else
-	{
-		DoorComponent->ActivateDoor(false);
+		DoorToActivate->OpenDoor();
 	}
 }
 
 void APreassurePlate::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(TotalMassOfActorsOverlapping()<MassToActivate)
+	if(DoorToActivate && !IsCurrentMassEnoughToActivate())
 	{
-		DoorComponent->ActivateDoor(false);
+		DoorToActivate->CloseDoor();
 	}
 }
 
-float APreassurePlate::TotalMassOfActorsOverlapping()
+bool APreassurePlate::IsCurrentMassEnoughToActivate()
 {
 	float Mass = 0.f;
 	TArray<AActor*> ActorsOverlapping;
@@ -57,5 +53,5 @@ float APreassurePlate::TotalMassOfActorsOverlapping()
 			}
 		}
 	}
-	return Mass;
+	return Mass>=MassToActivate;
 }
