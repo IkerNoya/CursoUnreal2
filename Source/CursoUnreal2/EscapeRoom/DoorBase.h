@@ -52,9 +52,5 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void TryInteractWithDoor();
-	UFUNCTION(BlueprintCallable, Category=Action)
-	void OpenDoor();
-	UFUNCTION(BlueprintCallable, Category=Action)
-	void CloseDoor();
 	void Unlock();
 };

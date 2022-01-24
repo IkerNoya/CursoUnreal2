@@ -25,7 +25,7 @@ void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 {
 	if(DoorToActivate && IsCurrentMassEnoughToActivate())
 	{
-		DoorToActivate->OpenDoor();
+		DoorToActivate->TryInteractWithDoor();
 	}
 }
 
@@ -33,7 +33,7 @@ void APreassurePlate::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
 	if(DoorToActivate && !IsCurrentMassEnoughToActivate())
 	{
-		DoorToActivate->CloseDoor();
+		DoorToActivate->TryInteractWithDoor();
 	}
 }
 

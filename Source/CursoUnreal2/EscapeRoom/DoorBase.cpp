@@ -42,35 +42,21 @@ void ADoorBase::TryInteractWithDoor()
 {
 	if (!bIsDoorLocked)
 	{
+		if (DoorSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
+		}
 		if (!bIsDoorOpen)
 		{
-			OpenDoor();
+			DoorTimeline->Play();
+			bIsDoorOpen=true;
 		}
 		else
 		{
-			CloseDoor();
+			DoorTimeline->Reverse();
+			bIsDoorOpen=false;
 		}
 	}
-}
-
-void ADoorBase::OpenDoor()
-{
-	if (DoorSound)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
-	}
-	DoorTimeline->Play();
-	bIsDoorOpen = true;
-}
-
-void ADoorBase::CloseDoor()
-{
-	if (DoorSound)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
-	}
-	DoorTimeline->Reverse();
-	bIsDoorOpen = false;
 }
 
 void ADoorBase::Unlock()
