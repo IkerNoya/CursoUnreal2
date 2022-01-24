@@ -28,16 +28,17 @@ void ASwitchBase::BeginPlay()
 void ASwitchBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	InteractableComp->OnInteract.AddDynamic(this, &ASwitchBase::ActivateSwitch);
+	InteractableComp->OnInteract.AddDynamic(this, &ASwitchBase::ActivateInteraction);
 }
 
-void ASwitchBase::ActivateSwitch()
+void ASwitchBase::ActivateInteraction()
 {
+	IInteractionInterface::ActivateInteraction();
 	if(ButtonSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());
 	}
-	//funcionalidad a activar en hijos
+	//Add functionality in children
 }
 
 

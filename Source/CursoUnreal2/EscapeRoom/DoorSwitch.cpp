@@ -16,11 +16,12 @@ void ADoorSwitch::BeginPlay()
 	}
 }
 
-void ADoorSwitch::ActivateSwitch()
+void ADoorSwitch::ActivateInteraction()
 {
-	Super::ActivateSwitch();
+	Super::ActivateInteraction();
 	if(DoorToActivate)
 	{
 		DoorToActivate->TryInteractWithDoor();
 	}
 }
+

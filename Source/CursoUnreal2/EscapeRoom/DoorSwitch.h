@@ -19,5 +19,5 @@ class CURSOUNREAL2_API ADoorSwitch : public ASwitchBase
 protected:
 	virtual void BeginPlay() override;
 public:
-	virtual void ActivateSwitch() override;
+	virtual void ActivateInteraction() override;
 };

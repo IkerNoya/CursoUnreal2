@@ -17,8 +17,11 @@ void AItemSpawnerSwitch::BeginPlay()
 	}
 }
 
-void AItemSpawnerSwitch::ActivateSwitch()
+void AItemSpawnerSwitch::ActivateInteraction()
 {
-	Super::ActivateSwitch();
-	ItemSpawner->SpawnItem();
+	Super::ActivateInteraction();
+	if(ItemSpawner)
+	{
+		ItemSpawner->SpawnItem();
+	}
 }

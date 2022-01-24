@@ -23,17 +23,19 @@ void APreassurePlate::BeginPlay()
 
 void APreassurePlate::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(DoorToActivate && IsCurrentMassEnoughToActivate())
+	if(DoorToActivate && IsCurrentMassEnoughToActivate() && !bWasActive)
 	{
 		DoorToActivate->TryInteractWithDoor();
+		bWasActive=true;
 	}
 }
 
 void APreassurePlate::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 {
-	if(DoorToActivate && !IsCurrentMassEnoughToActivate())
+	if(DoorToActivate && !IsCurrentMassEnoughToActivate() && bWasActive)
 	{
 		DoorToActivate->TryInteractWithDoor();
+		bWasActive=false;
 	}
 }
 

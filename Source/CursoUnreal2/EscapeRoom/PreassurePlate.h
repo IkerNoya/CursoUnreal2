@@ -20,6 +20,7 @@ protected:
 	float MassToActivate = 50.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 	ADoorBase* DoorToActivate = nullptr;
+	bool bWasActive=false;
 
 public:
 	APreassurePlate();

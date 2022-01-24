@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "Interactable.h"
 #include "Components/BoxComponent.h"
+#include "CursoUnreal2/Public/InteractionInterface.h"
 #include "GameFramework/Actor.h"
 #include "SwitchBase.generated.h"
 
 UCLASS()
-class CURSOUNREAL2_API ASwitchBase : public AActor
+class CURSOUNREAL2_API ASwitchBase : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 protected:
@@ -40,8 +41,5 @@ protected:
 	virtual void PostInitializeComponents() override;
 
 public:
-	UFUNCTION()
-	virtual void ActivateSwitch();
-	
-
+	virtual void ActivateInteraction() override;
 };
