@@ -3,7 +3,6 @@
 
 #include "MainPlayer.h"
 
-#include "EscapeRoom/Interactable.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values

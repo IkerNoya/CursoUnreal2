@@ -3,7 +3,7 @@
 
 #include "InteractComponent.h"
 
-#include "Interactable.h"
+#include "InteractionInterface.h"
 #include "ToolContextInterfaces.h"
 
 #define ECC_Interactable          ECC_GameTraceChannel1
@@ -37,10 +37,11 @@ void UInteractComponent::Interact()
 		AActor* Actor = Hit.GetActor();
 		if (Actor)
 		{
-			UInteractable* Interactable = Actor->FindComponentByClass<UInteractable>();
-			if (Interactable)
+			IInteractionInterface* Ej = Cast<IInteractionInterface>(Actor);
+			if(Ej)
 			{
-				Interactable->ActivateActor();
+				UE_LOG(LogTemp, Warning, TEXT("ENTRE PAPA"));
+				Ej->HandleInteraction();
 			}
 		}
 	}

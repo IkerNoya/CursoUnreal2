@@ -16,7 +16,6 @@ ASwitchBase::ASwitchBase()
 	Button = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button"));
 	Button->SetupAttachment(Box);
 
-	InteractableComp = CreateDefaultSubobject<UInteractable>(TEXT("Interactable Component"));
 }
 
 void ASwitchBase::BeginPlay()
@@ -28,7 +27,6 @@ void ASwitchBase::BeginPlay()
 void ASwitchBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	InteractableComp->OnInteract.AddDynamic(this, &ASwitchBase::HandleInteraction);
 }
 
 void ASwitchBase::HandleInteraction()

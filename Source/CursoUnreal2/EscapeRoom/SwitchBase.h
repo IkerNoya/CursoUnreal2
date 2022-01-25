@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Interactable.h"
 #include "Components/BoxComponent.h"
 #include "CursoUnreal2/Public/InteractionInterface.h"
 #include "GameFramework/Actor.h"
@@ -24,9 +23,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Activation)
 	AActor* ActorToActivate = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Components)
-	UInteractable* InteractableComp = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Audio)
 	USoundBase* ButtonSound;
