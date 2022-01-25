@@ -16,9 +16,9 @@ void ADoorSwitch::BeginPlay()
 	}
 }
 
-void ADoorSwitch::ActivateInteraction()
+void ADoorSwitch::HandleInteraction()
 {
-	Super::ActivateInteraction();
+	Super::HandleInteraction();
 	if(DoorToActivate)
 	{
 		DoorToActivate->TryInteractWithDoor();

@@ -24,7 +24,5 @@ class CURSOUNREAL2_API IInteractionInterface
 public:
 
 	UFUNCTION()
-	virtual void ActivateInteraction()
-	{
-	}
+	virtual void HandleInteraction(){}
 };

@@ -28,12 +28,12 @@ void ASwitchBase::BeginPlay()
 void ASwitchBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	InteractableComp->OnInteract.AddDynamic(this, &ASwitchBase::ActivateInteraction);
+	InteractableComp->OnInteract.AddDynamic(this, &ASwitchBase::HandleInteraction);
 }
 
-void ASwitchBase::ActivateInteraction()
+void ASwitchBase::HandleInteraction()
 {
-	IInteractionInterface::ActivateInteraction();
+	IInteractionInterface::HandleInteraction();
 	if(ButtonSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());

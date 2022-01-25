@@ -20,5 +20,5 @@ protected:
 
 	virtual void BeginPlay() override;
 public:
-	virtual void ActivateInteraction() override;
+	virtual void HandleInteraction() override;
 };
