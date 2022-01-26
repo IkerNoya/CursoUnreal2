@@ -3,28 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemBase.h"
 #include "ItemStruct.generated.h"
 
 USTRUCT(BlueprintType)
 struct CURSOUNREAL2_API FItemStruct
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	FName Name;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	bool bIsStackable;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	UTexture2D* Image;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	FString Description;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	bool bIsConsumable;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Item)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	int32 MaxStackSize;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Item)
-	AItemBase* Item;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Item)
+	// TSubclassOf<class AItemBase> Item;
 
 	FItemStruct()
 	{
@@ -34,6 +32,6 @@ struct CURSOUNREAL2_API FItemStruct
 		Description = "No item description";
 		bIsConsumable = false;
 		MaxStackSize = 0;
-		Item = nullptr;
+		// Item = nullptr;
 	}
 };

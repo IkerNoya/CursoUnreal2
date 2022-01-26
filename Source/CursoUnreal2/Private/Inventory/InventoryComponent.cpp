@@ -2,11 +2,12 @@
 
 
 #include "Inventory/InventoryComponent.h"
+#include "Items/Item.h"
 
 UInventoryComponent::UInventoryComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	
+	PrimaryComponentTick.bCanEverTick = false;
+	Capacity = 20;
 }
 
 
@@ -14,12 +15,37 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	for (auto& Item : DefaultItems)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ITEM NAME: %s"), *Item->GetName());
+		AddItem(Item);
+	}
 }
 
-void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+bool UInventoryComponent::AddItem(UItem* Item)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (Items.Num() >= Capacity || !Item)
+	{
+		return false;
+	}
 
+	Item->OwningInventory = this;
+	Item->World = GetWorld();
+	Items.Add(Item);
+
+	OnInventoryUpdated.Broadcast();
+	return true;
 }
 
+bool UInventoryComponent::RemoveItem(UItem* Item)
+{
+	if(Item)
+	{
+		Item->OwningInventory=nullptr;
+		Item->World=nullptr;
+		Items.RemoveSingle(Item);
+		OnInventoryUpdated.Broadcast();
+		return true;
+	}
+	return false;
+}

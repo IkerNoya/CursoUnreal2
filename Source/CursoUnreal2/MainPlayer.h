@@ -6,6 +6,7 @@
 #include "GrabberComponent.h"
 #include "EscapeRoom/InteractComponent.h"
 #include "GameFramework/Character.h"
+#include "Inventory/InventoryComponent.h"
 #include "MainPlayer.generated.h"
 
 UCLASS()
@@ -18,6 +19,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UInteractComponent* InteractComponent;
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Gameplay)
+	UInventoryComponent* Inventory;
+	
 	// Sets default values for this character's properties
 	AMainPlayer();
 	
@@ -43,5 +47,11 @@ public:
 	void Drop();
 
 	void Interact();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
+	void HandleInventory();
+	
+	UFUNCTION(BlueprintCallable)
+	void UseItem(class UItem* Item);
 
 };

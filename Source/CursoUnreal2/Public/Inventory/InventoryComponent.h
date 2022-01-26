@@ -6,23 +6,28 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
 class CURSOUNREAL2_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-
+public:
+	UPROPERTY(EditDefaultsOnly, Instanced)
+	TArray<class UItem*> DefaultItems;
+	UPROPERTY(EditDefaultsOnly, Category=Inventory)
+	int32 Capacity;
+	UPROPERTY(BlueprintAssignable, Category=Inventory)
+	FOnInventoryUpdated OnInventoryUpdated;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Items)
+	TArray<class UItem*> Items;
+	
 	UInventoryComponent();
 
 protected:
-	
 	virtual void BeginPlay() override;
 
-public:	
-	
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+public:
+	bool AddItem(class UItem* Item);
+	bool RemoveItem(class UItem* Item);
 };

@@ -4,6 +4,7 @@
 #include "MainPlayer.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Items/Item.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
@@ -12,6 +13,8 @@ AMainPlayer::AMainPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 	Grabber = CreateDefaultSubobject<UGrabberComponent>(TEXT("Grabber"));
 	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("Interact"));
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
+	Inventory->Capacity=20;
 }
 
 void AMainPlayer::PostInitializeComponents()
@@ -46,8 +49,10 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 		PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
 		PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
+		
 		PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);	
-		PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainPlayer::Interact);	
+		PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainPlayer::Interact);
+		PlayerInputComponent->BindAction("ShowInventory", IE_Pressed, this, &AMainPlayer::HandleInventory);
 	}
 }
 
@@ -118,5 +123,14 @@ void AMainPlayer::Interact()
 	{
 		InteractComponent->Interact();
 	}	
+}
+
+void AMainPlayer::UseItem(UItem* Item)
+{
+	if(Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this);
+	}
 }
 
