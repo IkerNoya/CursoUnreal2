@@ -3,18 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemStruct.h"
+#include "InteractionInterface.h"
 #include "GameFramework/Actor.h"
 #include "ItemBase.generated.h"
 
 UCLASS()
-class CURSOUNREAL2_API AItemBase : public AActor
+class CURSOUNREAL2_API AItemBase : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Settings); 
-	FItemStruct ItemStructure;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Items); 
+	TSubclassOf<class UItem> Item;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Mesh)
+	UStaticMeshComponent* Mesh=nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Components)
+	USceneComponent* SceneRoot=nullptr;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -25,7 +29,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
+	virtual void HandleInteraction() override;
 };

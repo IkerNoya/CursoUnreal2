@@ -21,8 +21,10 @@ struct CURSOUNREAL2_API FItemStruct
 	bool bIsConsumable;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
 	int32 MaxStackSize;
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Item)
-	// TSubclassOf<class AItemBase> Item;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item, meta = (ClampMin = 0.0))
+	float Weight;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Item)
+	class UInventoryComponent* OwningInventory;
 
 	FItemStruct()
 	{
@@ -32,6 +34,8 @@ struct CURSOUNREAL2_API FItemStruct
 		Description = "No item description";
 		bIsConsumable = false;
 		MaxStackSize = 0;
+		Weight = 0;
+		OwningInventory = nullptr;
 		// Item = nullptr;
 	}
 };

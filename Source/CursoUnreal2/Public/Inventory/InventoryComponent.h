@@ -29,5 +29,7 @@ protected:
 
 public:
 	bool AddItem(class UItem* Item);
+	
+	UFUNCTION(BlueprintCallable)
 	bool RemoveItem(class UItem* Item);
 };

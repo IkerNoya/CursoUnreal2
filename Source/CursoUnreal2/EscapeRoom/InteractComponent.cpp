@@ -37,11 +37,10 @@ void UInteractComponent::Interact()
 		AActor* Actor = Hit.GetActor();
 		if (Actor)
 		{
-			IInteractionInterface* Ej = Cast<IInteractionInterface>(Actor);
-			if(Ej)
+			IInteractionInterface* InteractionObject = Cast<IInteractionInterface>(Actor);
+			if(InteractionObject)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("ENTRE PAPA"));
-				Ej->HandleInteraction();
+				InteractionObject->HandleInteraction();
 			}
 		}
 	}

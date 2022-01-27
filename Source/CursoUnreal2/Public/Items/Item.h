@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "ItemBase.h"
 #include "Item.generated.h"
 
 /**
@@ -30,12 +31,16 @@ public:
 	FText ItemDescription;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category=Items, meta = (ClampMin = 0.0))
 	float Weight;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Items)
 	class UInventoryComponent* OwningInventory;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = Items)
+	TSubclassOf<AItemBase> ItemActor = nullptr;
 	
 	virtual void Use(class AMainPlayer* Player);
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void OnUse(class AMainPlayer* Player);
+
+	void SpawnActor(FVector Position);
 
 	UWorld* GetItemWorld() const {return World;}
 };

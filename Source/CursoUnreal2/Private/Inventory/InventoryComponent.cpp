@@ -41,6 +41,7 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 {
 	if(Item)
 	{
+		Item->SpawnActor(GetOwner()->GetActorLocation() + (GetOwner()->GetActorForwardVector() * 10));
 		Item->OwningInventory=nullptr;
 		Item->World=nullptr;
 		Items.RemoveSingle(Item);
