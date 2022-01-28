@@ -41,7 +41,6 @@ void AKeyDoor::HandleInteraction()
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Red, TEXT("Can't use Item Here"));
-			Player->Inventory->ItemEquipped=nullptr;
 			return;
 		}
 	}

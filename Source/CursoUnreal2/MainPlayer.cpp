@@ -122,6 +122,10 @@ void AMainPlayer::Interact()
 	if(InteractComponent)
 	{
 		InteractComponent->Interact();
+		if(Inventory->ItemEquipped)
+		{
+			Inventory->ItemEquipped=nullptr;
+		}
 	}	
 }
 
