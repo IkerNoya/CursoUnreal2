@@ -8,10 +8,14 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
-class CURSOUNREAL2_API UInventoryComponent : public UActorComponent
+class CURSOUNREAL2_API	UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	FVector DropOffset = FVector::ZeroVector;
+	
 public:
 	UPROPERTY(EditDefaultsOnly, Instanced)
 	TArray<class UItem*> DefaultItems;
@@ -21,6 +25,8 @@ public:
 	FOnInventoryUpdated OnInventoryUpdated;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Items)
 	TArray<class UItem*> Items;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Items)
+	class UItem* ItemEquipped = nullptr;
 	
 	UInventoryComponent();
 
@@ -32,4 +38,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	bool RemoveItem(class UItem* Item);
+	UFUNCTION(BlueprintCallable)
+	bool RemoveAndDeleteItem(class UItem* Item);
 };

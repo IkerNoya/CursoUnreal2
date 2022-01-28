@@ -11,12 +11,10 @@ AItemBase::AItemBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
-	RootComponent = SceneRoot;
-
+	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
+	RootComponent = Box;
 	Mesh=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(SceneRoot);
+	Mesh->SetupAttachment(Box);
 }
 
 void AItemBase::BeginPlay()

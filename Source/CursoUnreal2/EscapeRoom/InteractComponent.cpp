@@ -5,8 +5,10 @@
 
 #include "InteractionInterface.h"
 #include "ToolContextInterfaces.h"
+#include "Items/Item.h"
 
 #define ECC_Interactable          ECC_GameTraceChannel1
+#define ECC_InteractableWithItem  ECC_GameTraceChannel2 
 
 // Sets default values for this component's properties
 UInteractComponent::UInteractComponent()

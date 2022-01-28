@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InteractionInterface.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "ItemBase.generated.h"
 
@@ -18,7 +19,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Mesh)
 	UStaticMeshComponent* Mesh=nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Components)
-	USceneComponent* SceneRoot=nullptr;
+	UBoxComponent* Box;
 	
 public:	
 	// Sets default values for this actor's properties

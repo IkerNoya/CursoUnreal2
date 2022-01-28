@@ -3,8 +3,10 @@
 
 #include "Items/KeyItem.h"
 
+#include "Inventory/InventoryComponent.h"
+
 void UKeyItem::Use(AMainPlayer* Player)
 {
 	Super::Use(Player);
-	UE_LOG(LogTemp, Warning, TEXT("USED KEY"));
+	OwningInventory->ItemEquipped = this;
 }

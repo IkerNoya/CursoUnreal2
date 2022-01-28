@@ -41,9 +41,30 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 {
 	if(Item)
 	{
-		Item->SpawnActor(GetOwner()->GetActorLocation() + (GetOwner()->GetActorForwardVector() * 10));
+		Item->SpawnActor(GetOwner()->GetActorLocation() + DropOffset);
 		Item->OwningInventory=nullptr;
 		Item->World=nullptr;
+		if(ItemEquipped==Item)
+		{
+			ItemEquipped=nullptr;
+		}
+		Items.RemoveSingle(Item);
+		OnInventoryUpdated.Broadcast();
+		return true;
+	}
+	return false;
+}
+
+bool UInventoryComponent::RemoveAndDeleteItem(UItem* Item)
+{
+	if(Item)
+	{
+		Item->OwningInventory=nullptr;
+		Item->World=nullptr;
+		if(ItemEquipped==Item)
+		{
+			ItemEquipped=nullptr;
+		}
 		Items.RemoveSingle(Item);
 		OnInventoryUpdated.Broadcast();
 		return true;

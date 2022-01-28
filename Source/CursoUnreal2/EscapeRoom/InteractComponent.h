@@ -24,9 +24,10 @@ public:
 private:
 	void FindPlayerLocationAndRotation();
 	FVector CalculateLineTraceEnd();
+	
 public:	
 	// Sets default values for this component's properties
 
-	
+	void UseItem(class UItem* Item);
 	void Interact();
 };
