@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActivationInterface.h"
 #include "Components/BoxComponent.h"
 #include "CursoUnreal2/Public/InteractionInterface.h"
 #include "GameFramework/Actor.h"
@@ -22,7 +23,7 @@ protected:
 	UStaticMeshComponent* Button = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Activation)
-	AActor* ActorToActivate = nullptr;
+	TArray<TScriptInterface<IActivationInterface>> ActorsToActivate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Audio)
 	USoundBase* ButtonSound;

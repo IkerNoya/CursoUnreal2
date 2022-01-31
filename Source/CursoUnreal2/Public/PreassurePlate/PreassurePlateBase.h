@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActivationInterface.h"
 #include "InteractionInterface.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
@@ -15,7 +16,7 @@ class CURSOUNREAL2_API APreassurePlateBase : public AActor, public IInteractionI
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
-	AActor* ActorToActivate = nullptr;
+	TArray<TScriptInterface<IActivationInterface>> ActorsToActivate;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Components)
 	UBoxComponent* TriggerBox = nullptr;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Components)
@@ -33,8 +34,6 @@ protected:
 	virtual void PostInitializeComponents() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	virtual void HandleInteraction() override;
 	

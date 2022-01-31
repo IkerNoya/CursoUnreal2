@@ -3,58 +3,38 @@
 
 #include "PreassurePlate/WeightPreassurePlate.h"
 
-#include "CursoUnreal2/EscapeRoom/ItemSpawner.h"
 
-void AWeightPreassurePlate::HandleDoor()
-{
-	if(Door && !bWasActive && IsMassEnoughToActivate())
-	{
-		Door->TryInteractWithDoor();
-		bWasActive=true;
-	}
-	else if(Door && bWasActive && !IsMassEnoughToActivate())
-	{
-		Door->TryInteractWithDoor();
-		bWasActive=false;
-	}
-}
-
-void AWeightPreassurePlate::HandleSpawner()
-{
-	if(ItemSpawner && IsMassEnoughToActivate())
-	{
-		ItemSpawner->SpawnItem();
-	}
-}
 
 void AWeightPreassurePlate::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Door = Cast<ADoorBase>(ActorToActivate);
-	ItemSpawner = Cast<AItemSpawner>(ActorToActivate);
-	if(!Door)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't get door"));
-	}
-	if(!ItemSpawner)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't get Spawner"));
-	}
 }
 
 void AWeightPreassurePlate::HandleInteraction()
 {
-	switch (TypeActor)
+	if(!bWasActive && IsMassEnoughToActivate())
 	{
-	case ETypeActor::Door:
-		HandleDoor();
-		break;
-	case ETypeActor::Spawner:
-		HandleSpawner();
-		break;
+		for(int i = 0; i < ActorsToActivate.Num(); i++)
+		{
+			if(ActorsToActivate[i])
+			{
+				ActorsToActivate[i]->ActivateActor();
+				bWasActive=true;
+			}
+		}
 	}
-
+	else if(bWasActive && !IsMassEnoughToActivate())
+	{
+		for(int i = 0; i < ActorsToActivate.Num(); i++)
+		{
+			if(ActorsToActivate[i])
+			{
+				ActorsToActivate[i]->ActivateActor();
+				bWasActive=false;
+			}
+		}
+	}
 }
 
 bool AWeightPreassurePlate::IsMassEnoughToActivate()

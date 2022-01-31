@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActivationInterface.h"
 #include "GameFramework/Actor.h"
 #include "ItemSpawner.generated.h"
 
 UCLASS()
-class CURSOUNREAL2_API AItemSpawner : public AActor
+class CURSOUNREAL2_API AItemSpawner : public AActor, public IActivationInterface
 {
 	GENERATED_BODY()
 
@@ -25,5 +26,6 @@ protected:
 public:
 
 	void SpawnItem();
+	virtual void ActivateActor() override;
 
 };

@@ -3,7 +3,6 @@
 
 #include "ItemSpawner.h"
 
-#include "Kismet/KismetArrayLibrary.h"
 
 
 // Sets default values
@@ -25,5 +24,11 @@ void AItemSpawner::SpawnItem()
 {
 	int32 ChosenIndex = FMath::RandRange(0, Items.Num()-1);
 	GetWorld()->SpawnActor<AActor>(Items[ChosenIndex], GetActorLocation(), FRotator::ZeroRotator);
+}
+
+void AItemSpawner::ActivateActor()
+{
+	IActivationInterface::ActivateActor();
+	SpawnItem();
 }
 

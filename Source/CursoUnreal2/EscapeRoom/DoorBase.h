@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActivationInterface.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "DoorBase.generated.h"
@@ -10,7 +11,7 @@
 UCLASS()
 //TODO: Tratar de crear cosas con la menor conexion entre si posibles
 //Responsabilidad de puerta: Abrir y Cerrar
-class CURSOUNREAL2_API ADoorBase : public AActor
+class CURSOUNREAL2_API ADoorBase : public AActor, public IActivationInterface
 {
 	GENERATED_BODY()
 
@@ -53,4 +54,5 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TryInteractWithDoor();
 	void Unlock();
+	virtual void ActivateActor() override;
 };

@@ -5,7 +5,7 @@
 
 APreassurePlateBase::APreassurePlateBase()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Box"));
 	RootComponent = TriggerBox;
 	Plate=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plate"));
@@ -26,12 +26,6 @@ void APreassurePlateBase::PostInitializeComponents()
 	TriggerBox->OnComponentEndOverlap.AddDynamic(this, &APreassurePlateBase::OnOverlapEnd);
 }
 
-// Called every frame
-void APreassurePlateBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 
 void APreassurePlateBase::HandleInteraction()
 {

@@ -63,3 +63,9 @@ void ADoorBase::Unlock()
 {
 	bIsDoorLocked = false;
 }
+
+void ADoorBase::ActivateActor()
+{
+	IActivationInterface::ActivateActor();
+	TryInteractWithDoor();
+}
