@@ -8,3 +8,7 @@
 void IElectricityInterface::AddElectricity()
 {
 }
+
+void IElectricityInterface::RemoveElectricity()
+{
+}

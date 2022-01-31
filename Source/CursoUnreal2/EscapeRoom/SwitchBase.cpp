@@ -32,17 +32,21 @@ void ASwitchBase::PostInitializeComponents()
 void ASwitchBase::HandleInteraction()
 {
 	IInteractionInterface::HandleInteraction();
-	if(ButtonSound)
+	if(bIsButtonActivated)
 	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());
-	}
-	for(int i = 0; i < ActorsToActivate.Num(); i++)
-	{
-		if(ActorsToActivate[i])
+		if(ButtonSound)
 		{
-			ActorsToActivate[i]->ActivateActor();
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());
+		}
+		for(int i = 0; i < ActorsToActivate.Num(); i++)
+		{
+			if(ActorsToActivate[i])
+			{
+				ActorsToActivate[i]->ActivateActor();
+			}
 		}
 	}
+
 }
 
 

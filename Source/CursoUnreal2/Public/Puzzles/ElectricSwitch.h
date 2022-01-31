@@ -16,10 +16,11 @@ class CURSOUNREAL2_API AElectricSwitch : public ASwitchBase, public IElectricity
 	GENERATED_BODY()
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", meta = (ClampMin = 1.0))
-	int ElectricityNeededToActivate = 1;
-	int ElectricityCount=0;
+	int32 ElectricityNeededToActivate = 1;
+	int32 ElectricityCount=0;
 
 public:
 	virtual void AddElectricity() override;
+	virtual void RemoveElectricity() override;
 	
 };

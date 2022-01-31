@@ -27,6 +27,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Audio)
 	USoundBase* ButtonSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Audio)
+	bool bIsButtonActivated = true;
 	
 public:	
 	// Sets default values for this actor's properties

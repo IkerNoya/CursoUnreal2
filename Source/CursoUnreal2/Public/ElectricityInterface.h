@@ -21,4 +21,6 @@ public:
 
 	UFUNCTION()
 	virtual void AddElectricity();
+	UFUNCTION()
+	virtual void RemoveElectricity();
 };
