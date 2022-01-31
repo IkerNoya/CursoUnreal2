@@ -7,6 +7,7 @@
 
 #define OUT // No hace nada, le agrega legibilidad
 #define ECC_Connectable       ECC_GameTraceChannel2
+#define ECC_Interactable      ECC_GameTraceChannel1
 
 UGrabberComponent::UGrabberComponent()
 {
@@ -35,7 +36,7 @@ FHitResult UGrabberComponent::GetFirstPhysicsBodyInReach()
 {
 	FHitResult Hit;
 	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, GetPlayerReach(), FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_Connectable)), TraceParams);
+	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, GetPlayerReach(), FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_Connectable) | ECC_TO_BITFIELD(ECC_Interactable)), TraceParams);
 	
 	return Hit;
 }
