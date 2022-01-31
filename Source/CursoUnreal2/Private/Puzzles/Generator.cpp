@@ -65,7 +65,6 @@ void AGenerator::OnOverlapBegin(UPrimitiveComponent* Component, AActor* OtherAct
 	{
 		AddElectricity();
 		AttachCable(OtherComp);
-		OtherActor->DisableComponentsSimulatePhysics();
 	}
 
 }
