@@ -36,7 +36,13 @@ void ASwitchBase::HandleInteraction()
 	{
 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ButtonSound, GetActorLocation());
 	}
-	//Add functionality in children
+	for(int i = 0; i < ActorsToActivate.Num(); i++)
+	{
+		if(ActorsToActivate[i])
+		{
+			ActorsToActivate[i]->ActivateActor();
+		}
+	}
 }
 
 
