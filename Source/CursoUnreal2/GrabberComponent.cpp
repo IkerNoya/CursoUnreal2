@@ -3,6 +3,7 @@
 
 #include "GrabberComponent.h"
 
+#include "MainPlayer.h"
 #include "GameFramework/GameSession.h"
 
 #define OUT // No hace nada, le agrega legibilidad
@@ -19,7 +20,11 @@ UGrabberComponent::UGrabberComponent()
 void UGrabberComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	AMainPlayer* Player = Cast<AMainPlayer>(GetOwner());
+	if(Player)
+	{
+		TargetLocation = Player->TargetLocation;
+	}
 	FindPhysicsHandle();
 }
 
@@ -56,9 +61,9 @@ void UGrabberComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
 	SetPlayerLocationAndRotation();
-	if(PhysicsHandle && PhysicsHandle->GetGrabbedComponent())
+	if(PhysicsHandle && PhysicsHandle->GetGrabbedComponent() && TargetLocation)
 	{
-		PhysicsHandle->SetTargetLocation(GetPlayerReach());
+		PhysicsHandle->SetTargetLocationAndRotation(TargetLocation->GetComponentLocation(), TargetLocation->GetComponentRotation());
 	}
 }
 
@@ -67,9 +72,9 @@ void UGrabberComponent::Grab()
 	FHitResult Hit = GetFirstPhysicsBodyInReach();
 	UPrimitiveComponent* ComponentToGrab = Hit.GetComponent();
 	AActor* Actor = Hit.GetActor();
-	if(PhysicsHandle && ComponentToGrab && Actor)
+	if(PhysicsHandle && ComponentToGrab && Actor && TargetLocation)
 	{
-		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, GetPlayerReach(), Hit.GetActor()->GetActorRotation());
+		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, TargetLocation->GetComponentLocation(), TargetLocation->GetComponentRotation());
 		bIsObjectGrabbed=true;
 	}
 }
@@ -85,11 +90,9 @@ void UGrabberComponent::Drop()
 
 void UGrabberComponent::RotateObject(FRotator Value)
 {
-	FRotator Rotation = Value;
-	if(PhysicsHandle)
+	if(TargetLocation)
 	{
-		PhysicsHandle->GrabbedComponent->AddLocalRotation(Rotation * .5f);
-		PhysicsHandle->SetTargetRotation(PhysicsHandle->GrabbedComponent->GetRelativeRotation());
+		TargetLocation->AddWorldRotation(Value);
 	}
 }
 

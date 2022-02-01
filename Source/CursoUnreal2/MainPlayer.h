@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GrabberComponent.h"
+#include "Camera/CameraComponent.h"
 #include "EscapeRoom/InteractComponent.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Inventory/InventoryComponent.h"
 #include "MainPlayer.generated.h"
 
@@ -15,8 +17,14 @@ class CURSOUNREAL2_API AMainPlayer : public ACharacter
 	GENERATED_BODY()
 
 	FRotator ObjectRotation = FRotator::ZeroRotator;
+	FRotator OriginalTargetRotation = FRotator::ZeroRotator;
 	
 protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
+	UCameraComponent* Camera;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Components)
+	USpringArmComponent* SpringArm;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UGrabberComponent* Grabber;
 	
@@ -27,6 +35,8 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Gameplay)
 	UInventoryComponent* Inventory;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
+	USceneComponent* TargetLocation;
 	
 	// Sets default values for this character's properties
 	AMainPlayer();

@@ -9,17 +9,29 @@
 // Sets default values
 AMainPlayer::AMainPlayer()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(RootComponent);
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm->SetupAttachment(Camera);
+	
 	Grabber = CreateDefaultSubobject<UGrabberComponent>(TEXT("Grabber"));
 	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("Interact"));
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
 	Inventory->Capacity = 20;
+
+	TargetLocation = CreateDefaultSubobject<USceneComponent>(TEXT("TargetLocation"));
+	TargetLocation->SetupAttachment(SpringArm);
 }
 
 void AMainPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+	if(TargetLocation)
+	{
+		OriginalTargetRotation = TargetLocation->GetComponentRotation();
+	}
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +46,7 @@ void AMainPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if(bIsRotatingObject)
 	{
-		Grabber->RotateObject(ObjectRotation);
+		TargetLocation->AddRelativeRotation(ObjectRotation);
 	}
 }
 
@@ -79,36 +91,46 @@ void AMainPlayer::MoveRight(float Value)
 
 void AMainPlayer::Turn(float Value)
 {
-
-	if (Value && !bIsRotatingObject)
+	if (Value)
 	{
-		AddControllerYawInput(Value);
+		if (!bIsRotatingObject)
+		{
+			AddControllerYawInput(Value);
+		}
+		else
+		{
+			if (InputComponent && Grabber)
+			{
+				ObjectRotation.Yaw = Value*-1;
+			}
+		}
 	}
 	else
 	{
-		if(InputComponent)
-		{
-			ObjectRotation.Yaw = InputComponent->GetAxisValue("Turn");
-		}
+		ObjectRotation.Yaw = 0;
 	}
-	
 }
 
 void AMainPlayer::LookUp(float Value)
 {
-	
-	if (Value && !bIsRotatingObject)
+	if (Value)
 	{
-		AddControllerPitchInput(Value);
+		if (!bIsRotatingObject)
+		{
+			AddControllerPitchInput(Value);
+		}
+		else
+		{
+			if (TargetLocation)
+			{
+				ObjectRotation.Pitch = Value;
+			}
+		}
 	}
 	else
 	{
-		if(InputComponent)
-		{
-			ObjectRotation.Pitch = InputComponent->GetAxisValue("LookUp");
-		}
+		ObjectRotation.Pitch = 0;
 	}
-	
 }
 
 void AMainPlayer::HandleCrouch()
@@ -137,6 +159,8 @@ void AMainPlayer::Drop()
 	if (Grabber)
 	{
 		Grabber->Drop();
+		StopRotatingObject();
+		TargetLocation->SetWorldRotation(OriginalTargetRotation);
 	}
 }
 
@@ -163,18 +187,16 @@ void AMainPlayer::UseItem(UItem* Item)
 
 void AMainPlayer::RotateObject()
 {
-	
-	if(Grabber)
+	if (Grabber)
 	{
-		if(Grabber->bIsObjectGrabbed)
+		if (Grabber->bIsObjectGrabbed)
 		{
-			bIsRotatingObject=true;
+			bIsRotatingObject = true;
 		}
 	}
 }
 
 void AMainPlayer::StopRotatingObject()
 {
-	bIsRotatingObject=false;
-	ObjectRotation=FRotator::ZeroRotator;
+	bIsRotatingObject = false;
 }

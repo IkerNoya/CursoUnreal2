@@ -22,6 +22,9 @@ protected:
 	FVector PlayerLocation;
 	FRotator PlayerRotation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
+	USceneComponent* TargetLocation;
+
 
 public:
 	bool bIsObjectGrabbed = false;
