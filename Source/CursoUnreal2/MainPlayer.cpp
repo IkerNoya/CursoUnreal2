@@ -23,6 +23,8 @@ AMainPlayer::AMainPlayer()
 
 	TargetLocation = CreateDefaultSubobject<USceneComponent>(TEXT("TargetLocation"));
 	TargetLocation->SetupAttachment(SpringArm);
+
+	NormalSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 void AMainPlayer::PostInitializeComponents()
@@ -70,6 +72,9 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 		PlayerInputComponent->BindAction("ActivateRotation", IE_Pressed, this, &AMainPlayer::RotateObject);
 		PlayerInputComponent->BindAction("ActivateRotation", IE_Released, this, &AMainPlayer::StopRotatingObject);
+
+		PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMainPlayer::HandleSprint);
+		PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMainPlayer::HandleSprint);
 	}
 }
 
@@ -142,6 +147,19 @@ void AMainPlayer::HandleCrouch()
 	else
 	{
 		Crouch();
+	}
+}
+
+void AMainPlayer::HandleSprint()
+{
+	bIsSprinting = !bIsSprinting;
+	if(bIsSprinting)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 	}
 }
 

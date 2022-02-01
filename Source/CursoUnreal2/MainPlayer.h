@@ -18,7 +18,8 @@ class CURSOUNREAL2_API AMainPlayer : public ACharacter
 
 	FRotator ObjectRotation = FRotator::ZeroRotator;
 	FRotator OriginalTargetRotation = FRotator::ZeroRotator;
-	
+
+	bool bIsSprinting=false;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
 	UCameraComponent* Camera;
@@ -30,6 +31,12 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UInteractComponent* InteractComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float SprintSpeed = 500.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float NormalSpeed;
 	
 	bool bIsRotatingObject = false;
 public:
@@ -58,7 +65,8 @@ public:
 	void Turn(float Value);
 	void LookUp(float Value);
 	void HandleCrouch();
-
+	void HandleSprint();
+	
 	void Grab();
 	void Drop();
 
