@@ -73,6 +73,8 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		PlayerInputComponent->BindAction("ActivateRotation", IE_Pressed, this, &AMainPlayer::RotateObject);
 		PlayerInputComponent->BindAction("ActivateRotation", IE_Released, this, &AMainPlayer::StopRotatingObject);
 
+		PlayerInputComponent->BindAction("Throw", IE_Pressed, this, &AMainPlayer::Throw);
+
 		PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMainPlayer::HandleSprint);
 		PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMainPlayer::HandleSprint);
 	}
@@ -179,6 +181,14 @@ void AMainPlayer::Drop()
 		Grabber->Drop();
 		StopRotatingObject();
 		TargetLocation->SetWorldRotation(OriginalTargetRotation);
+	}
+}
+
+void AMainPlayer::Throw()
+{
+	if(Grabber)
+	{
+		Grabber->Throw();
 	}
 }
 

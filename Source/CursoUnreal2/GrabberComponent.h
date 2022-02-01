@@ -23,7 +23,11 @@ protected:
 	FRotator PlayerRotation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
+	float ThrowForce = 100.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
 	USceneComponent* TargetLocation;
+
+	
 
 
 public:
@@ -50,4 +54,6 @@ public:
 	void Drop();
 	UFUNCTION(BlueprintCallable, Category=Grabber)
 	void RotateObject(FRotator Value);
+	UFUNCTION(BlueprintCallable, Category=Grabber)
+	void Throw();
 };

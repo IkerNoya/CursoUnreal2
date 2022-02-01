@@ -69,7 +69,8 @@ public:
 	
 	void Grab();
 	void Drop();
-
+	void Throw();
+	
 	void Interact();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
