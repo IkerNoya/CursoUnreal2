@@ -46,6 +46,8 @@ void ADoorBase::TryInteractWithDoor()
 		{
 			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DoorSound, GetActorLocation());
 		}
+		//Chequear estado del timeline
+		//Investigar "track" de eventos
 		if (!bIsDoorOpen)
 		{
 			DoorTimeline->Play();

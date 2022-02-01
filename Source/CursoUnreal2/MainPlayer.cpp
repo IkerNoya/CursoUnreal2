@@ -9,12 +9,12 @@
 // Sets default values
 AMainPlayer::AMainPlayer()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	Grabber = CreateDefaultSubobject<UGrabberComponent>(TEXT("Grabber"));
 	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("Interact"));
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
-	Inventory->Capacity=20;
+	Inventory->Capacity = 20;
 }
 
 void AMainPlayer::PostInitializeComponents()
@@ -26,21 +26,23 @@ void AMainPlayer::PostInitializeComponents()
 void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if(bIsRotatingObject)
+	{
+		Grabber->RotateObject(ObjectRotation);
+	}
 }
 
 // Called to bind functionality to input
 void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	if(PlayerInputComponent)
+	if (PlayerInputComponent)
 	{
 		PlayerInputComponent->BindAxis("Forward", this, &AMainPlayer::MoveForward);
 		PlayerInputComponent->BindAxis("Right", this, &AMainPlayer::MoveRight);
@@ -49,16 +51,19 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 		PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
 		PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
-		
-		PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);	
+
+		PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainPlayer::HandleCrouch);
 		PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainPlayer::Interact);
 		PlayerInputComponent->BindAction("ShowInventory", IE_Pressed, this, &AMainPlayer::HandleInventory);
+
+		PlayerInputComponent->BindAction("ActivateRotation", IE_Pressed, this, &AMainPlayer::RotateObject);
+		PlayerInputComponent->BindAction("ActivateRotation", IE_Released, this, &AMainPlayer::StopRotatingObject);
 	}
 }
 
 void AMainPlayer::MoveForward(float Value)
 {
-	if(Value)
+	if (Value)
 	{
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
@@ -66,7 +71,7 @@ void AMainPlayer::MoveForward(float Value)
 
 void AMainPlayer::MoveRight(float Value)
 {
-	if(Value)
+	if (Value)
 	{
 		AddMovementInput(GetActorRightVector(), Value);
 	}
@@ -74,23 +79,41 @@ void AMainPlayer::MoveRight(float Value)
 
 void AMainPlayer::Turn(float Value)
 {
-	if(Value)
+
+	if (Value && !bIsRotatingObject)
 	{
 		AddControllerYawInput(Value);
 	}
+	else
+	{
+		if(InputComponent)
+		{
+			ObjectRotation.Yaw = InputComponent->GetAxisValue("Turn");
+		}
+	}
+	
 }
 
 void AMainPlayer::LookUp(float Value)
 {
-	if(Value)
+	
+	if (Value && !bIsRotatingObject)
 	{
 		AddControllerPitchInput(Value);
 	}
+	else
+	{
+		if(InputComponent)
+		{
+			ObjectRotation.Pitch = InputComponent->GetAxisValue("LookUp");
+		}
+	}
+	
 }
 
 void AMainPlayer::HandleCrouch()
 {
-	if(bIsCrouched)
+	if (bIsCrouched)
 	{
 		UnCrouch();
 	}
@@ -103,7 +126,7 @@ void AMainPlayer::HandleCrouch()
 
 void AMainPlayer::Grab()
 {
-	if(Grabber)
+	if (Grabber)
 	{
 		Grabber->Grab();
 	}
@@ -111,7 +134,7 @@ void AMainPlayer::Grab()
 
 void AMainPlayer::Drop()
 {
-	if(Grabber)
+	if (Grabber)
 	{
 		Grabber->Drop();
 	}
@@ -119,22 +142,39 @@ void AMainPlayer::Drop()
 
 void AMainPlayer::Interact()
 {
-	if(InteractComponent)
+	if (InteractComponent)
 	{
 		InteractComponent->Interact();
-		if(Inventory->ItemEquipped)
+		if (Inventory->ItemEquipped)
 		{
-			Inventory->ItemEquipped=nullptr;
+			Inventory->ItemEquipped = nullptr;
 		}
-	}	
+	}
 }
 
 void AMainPlayer::UseItem(UItem* Item)
 {
-	if(Item)
+	if (Item)
 	{
 		Item->Use(this);
 		Item->OnUse(this);
 	}
 }
 
+void AMainPlayer::RotateObject()
+{
+	
+	if(Grabber)
+	{
+		if(Grabber->bIsObjectGrabbed)
+		{
+			bIsRotatingObject=true;
+		}
+	}
+}
+
+void AMainPlayer::StopRotatingObject()
+{
+	bIsRotatingObject=false;
+	ObjectRotation=FRotator::ZeroRotator;
+}

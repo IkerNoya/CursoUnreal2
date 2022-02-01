@@ -70,6 +70,7 @@ void UGrabberComponent::Grab()
 	if(PhysicsHandle && ComponentToGrab && Actor)
 	{
 		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab,NAME_None, GetPlayerReach(), Hit.GetActor()->GetActorRotation());
+		bIsObjectGrabbed=true;
 	}
 }
 
@@ -77,7 +78,20 @@ void UGrabberComponent::Drop()
 {
 	if(PhysicsHandle)
 	{
+		bIsObjectGrabbed=false;
 		PhysicsHandle->ReleaseComponent();
 	}
 }
+
+void UGrabberComponent::RotateObject(FRotator Value)
+{
+	FRotator Rotation = Value;
+	if(PhysicsHandle)
+	{
+		PhysicsHandle->GrabbedComponent->AddLocalRotation(Rotation * .5f);
+		PhysicsHandle->SetTargetRotation(PhysicsHandle->GrabbedComponent->GetRelativeRotation());
+	}
+}
+
+
 

@@ -21,10 +21,11 @@ protected:
 
 	FVector PlayerLocation;
 	FRotator PlayerRotation;
-	
+
+
+public:
 	bool bIsObjectGrabbed = false;
 	
-public:	
 	UGrabberComponent();
 
 protected:
@@ -44,4 +45,6 @@ public:
 	void Grab();
 	UFUNCTION(BlueprintCallable, Category=Grabber)
 	void Drop();
+	UFUNCTION(BlueprintCallable, Category=Grabber)
+	void RotateObject(FRotator Value);
 };

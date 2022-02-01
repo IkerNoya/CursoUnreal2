@@ -13,11 +13,17 @@ UCLASS()
 class CURSOUNREAL2_API AMainPlayer : public ACharacter
 {
 	GENERATED_BODY()
+
+	FRotator ObjectRotation = FRotator::ZeroRotator;
+	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UGrabberComponent* Grabber;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gameplay)
 	UInteractComponent* InteractComponent;
+	
+	bool bIsRotatingObject = false;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Gameplay)
 	UInventoryComponent* Inventory;
@@ -54,4 +60,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);
 
+	void RotateObject();
+	void StopRotatingObject();
 };
