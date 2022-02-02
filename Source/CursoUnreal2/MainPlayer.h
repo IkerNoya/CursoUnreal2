@@ -11,6 +11,7 @@
 #include "Inventory/InventoryComponent.h"
 #include "MainPlayer.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActivatePause);
 UCLASS()
 class CURSOUNREAL2_API AMainPlayer : public ACharacter
 {
@@ -72,9 +73,13 @@ public:
 	void Throw();
 	
 	void Interact();
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+	FActivatePause Pause;
+	void ActivatePause();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
 	void HandleInventory();
+	
 	
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);

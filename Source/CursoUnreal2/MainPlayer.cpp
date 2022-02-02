@@ -5,6 +5,7 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Items/Item.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AMainPlayer::AMainPlayer()
@@ -77,6 +78,8 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 		PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMainPlayer::HandleSprint);
 		PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMainPlayer::HandleSprint);
+
+		PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &AMainPlayer::ActivatePause);
 	}
 }
 
@@ -202,6 +205,12 @@ void AMainPlayer::Interact()
 			Inventory->ItemEquipped = nullptr;
 		}
 	}
+}
+
+void AMainPlayer::ActivatePause()
+{
+	Pause.Broadcast();
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
 void AMainPlayer::UseItem(UItem* Item)
