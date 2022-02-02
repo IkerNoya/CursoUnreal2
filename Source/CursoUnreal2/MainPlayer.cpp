@@ -16,7 +16,7 @@ AMainPlayer::AMainPlayer()
 	Camera->SetupAttachment(RootComponent);
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(Camera);
-	
+
 	Grabber = CreateDefaultSubobject<UGrabberComponent>(TEXT("Grabber"));
 	InteractComponent = CreateDefaultSubobject<UInteractComponent>(TEXT("Interact"));
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
@@ -28,10 +28,33 @@ AMainPlayer::AMainPlayer()
 	NormalSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
+void AMainPlayer::CheckIfPlayerIsInGrabbingDistance()
+{
+	if(Grabber && !Grabber->bIsObjectGrabbed)
+	{
+		FVector Location;
+		FRotator Rotation;
+		GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT Location, OUT Rotation);
+
+		FVector PlayerReach = Location + Rotation.Vector() * Grabber->Reach;
+		FHitResult Hit;
+		FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
+		if(GetWorld()->LineTraceSingleByObjectType(OUT  Hit, Location, PlayerReach, FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_GameTraceChannel1) | ECC_TO_BITFIELD(ECC_GameTraceChannel2)), TraceParams))
+		{
+			bIsObjectInGrabbingDistance=true;
+		}
+		else
+		{
+			bIsObjectInGrabbingDistance=false;
+		}
+	}
+
+}
+
 void AMainPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	if(TargetLocation)
+	if (TargetLocation)
 	{
 		OriginalTargetRotation = TargetLocation->GetComponentRotation();
 	}
@@ -47,10 +70,19 @@ void AMainPlayer::BeginPlay()
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(bIsRotatingObject)
+	CheckIfPlayerIsInGrabbingDistance();
+	if (bIsRotatingObject)
 	{
 		TargetLocation->AddRelativeRotation(ObjectRotation);
 	}
+}
+
+float AMainPlayer::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+                              AActor* DamageCauser)
+{
+	Hp -= DamageAmount;
+	DecreaseHp.Broadcast();
+	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 
 // Called to bind functionality to input
@@ -111,7 +143,7 @@ void AMainPlayer::Turn(float Value)
 		{
 			if (InputComponent && Grabber)
 			{
-				ObjectRotation.Yaw = Value*-1;
+				ObjectRotation.Yaw = Value * -1;
 			}
 		}
 	}
@@ -158,7 +190,7 @@ void AMainPlayer::HandleCrouch()
 void AMainPlayer::HandleSprint()
 {
 	bIsSprinting = !bIsSprinting;
-	if(bIsSprinting)
+	if (bIsSprinting)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
 	}
@@ -189,7 +221,7 @@ void AMainPlayer::Drop()
 
 void AMainPlayer::Throw()
 {
-	if(Grabber)
+	if (Grabber)
 	{
 		Grabber->Throw(Camera->GetForwardVector());
 	}

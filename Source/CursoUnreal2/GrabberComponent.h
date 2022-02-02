@@ -14,8 +14,7 @@ class CURSOUNREAL2_API UGrabberComponent : public UActorComponent
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditAnywhere, Category = Grab)
-	float Reach = 50.f;
+
 
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 
@@ -32,6 +31,8 @@ protected:
 
 public:
 	bool bIsObjectGrabbed = false;
+	UPROPERTY(EditAnywhere, Category = Grab)
+	float Reach = 50.f;
 	
 	UGrabberComponent();
 

@@ -12,6 +12,7 @@
 #include "MainPlayer.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActivatePause);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUpdateHealth);
 UCLASS()
 class CURSOUNREAL2_API AMainPlayer : public ACharacter
 {
@@ -38,6 +39,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	float NormalSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	int32 Hp = 2;
 	
 	bool bIsRotatingObject = false;
 public:
@@ -45,9 +49,14 @@ public:
 	UInventoryComponent* Inventory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
 	USceneComponent* TargetLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	bool bIsObjectInGrabbingDistance=false;
 	
 	// Sets default values for this character's properties
 	AMainPlayer();
+
+private:
+	void CheckIfPlayerIsInGrabbingDistance();
 	
 protected:
 	virtual void PostInitializeComponents() override;
@@ -57,6 +66,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -75,11 +86,14 @@ public:
 	void Interact();
 	UPROPERTY(BlueprintAssignable, Category = Gameplay)
 	FActivatePause Pause;
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+	FUpdateHealth DecreaseHp;
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+	FUpdateHealth IncreaseHp;
 	void ActivatePause();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
 	void HandleInventory();
-	
 	
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);
