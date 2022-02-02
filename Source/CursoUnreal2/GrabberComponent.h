@@ -55,5 +55,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category=Grabber)
 	void RotateObject(FRotator Value);
 	UFUNCTION(BlueprintCallable, Category=Grabber)
-	void Throw();
+	void Throw(FVector Direction);
 };

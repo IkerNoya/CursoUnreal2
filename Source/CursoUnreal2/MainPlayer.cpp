@@ -188,7 +188,7 @@ void AMainPlayer::Throw()
 {
 	if(Grabber)
 	{
-		Grabber->Throw();
+		Grabber->Throw(Camera->GetForwardVector());
 	}
 }
 

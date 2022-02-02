@@ -96,14 +96,14 @@ void UGrabberComponent::RotateObject(FRotator Value)
 	}
 }
 
-void UGrabberComponent::Throw()
+void UGrabberComponent::Throw(FVector Direction)
 {
 	if(PhysicsHandle && PhysicsHandle->GetGrabbedComponent())
 	{
 		UPrimitiveComponent* GrabbedComponent = PhysicsHandle->GrabbedComponent;
 		Drop();
 		GrabbedComponent->WakeRigidBody();
-		GrabbedComponent->AddImpulse(GetOwner()->GetActorForwardVector() * ThrowForce, NAME_None, true);
+		GrabbedComponent->AddImpulse(Direction * ThrowForce, NAME_None, true);
 		GrabbedComponent=nullptr;
 	}
 }
