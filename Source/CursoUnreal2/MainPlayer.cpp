@@ -82,6 +82,11 @@ float AMainPlayer::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 {
 	Hp -= DamageAmount;
 	DecreaseHp.Broadcast();
+	if(Hp<=0)
+	{
+		GameOver.Broadcast();
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+	}
 	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
 
@@ -252,6 +257,14 @@ void AMainPlayer::UseItem(UItem* Item)
 		Item->Use(this);
 		Item->OnUse(this);
 	}
+}
+
+void AMainPlayer::BeginDestroy()
+{
+	DecreaseHp.Clear();
+	IncreaseHp.Clear();
+	GameOver.Clear();
+	Super::BeginDestroy();
 }
 
 void AMainPlayer::RotateObject()

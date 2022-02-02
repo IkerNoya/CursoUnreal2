@@ -13,6 +13,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActivatePause);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUpdateHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOver);
 UCLASS()
 class CURSOUNREAL2_API AMainPlayer : public ACharacter
 {
@@ -67,6 +68,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	// Called to bind functionality to input
@@ -90,6 +92,8 @@ public:
 	FUpdateHealth DecreaseHp;
 	UPROPERTY(BlueprintAssignable, Category = Gameplay)
 	FUpdateHealth IncreaseHp;
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+	FGameOver GameOver;
 	void ActivatePause();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
@@ -97,6 +101,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void UseItem(class UItem* Item);
+
+	virtual void BeginDestroy() override;
 
 	void RotateObject();
 	void StopRotatingObject();
