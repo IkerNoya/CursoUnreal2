@@ -23,7 +23,9 @@ class CURSOUNREAL2_API AMainPlayer : public ACharacter
 	FRotator OriginalTargetRotation = FRotator::ZeroRotator;
 
 	bool bIsSprinting=false;
+	
 protected:
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
 	UCameraComponent* Camera;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Components)

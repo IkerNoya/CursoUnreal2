@@ -101,6 +101,9 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		PlayerInputComponent->BindAxis("Turn", this, &AMainPlayer::Turn);
 		PlayerInputComponent->BindAxis("LookUp", this, &AMainPlayer::LookUp);
 
+		PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+		PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
 		PlayerInputComponent->BindAction("Grab", IE_Pressed, this, &AMainPlayer::Grab);
 		PlayerInputComponent->BindAction("Grab", IE_Released, this, &AMainPlayer::Drop);
 
