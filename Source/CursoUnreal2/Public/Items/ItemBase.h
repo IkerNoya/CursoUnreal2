@@ -12,14 +12,15 @@ UCLASS()
 class CURSOUNREAL2_API AItemBase : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
-	
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Items); 
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Items);
 	TSubclassOf<class UItem> Item;
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Mesh)
 	UStaticMeshComponent* Mesh=nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Components)
 	UBoxComponent* Box;
+
 	
 public:	
 	// Sets default values for this actor's properties

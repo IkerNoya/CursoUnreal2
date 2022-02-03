@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ElectricityInterface.h"
+#include "Items/ItemBase.h"
 #include "PreassurePlate/PreassurePlateBase.h"
 #include "ActorPreassurePlate.generated.h"
 
@@ -20,6 +21,10 @@ protected:
 	bool bIsActivated = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	TSubclassOf<AActor> ActorToCompleteActivation;
+
+protected:
+
+	virtual void BeginPlay() override;
 	
 	virtual void HandleInteraction() override;
 	virtual void OnOverlapBegin(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult) override;

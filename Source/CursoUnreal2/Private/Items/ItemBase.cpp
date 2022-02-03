@@ -3,6 +3,7 @@
 
 #include "Items/ItemBase.h"
 
+#include "Components/BillboardComponent.h"
 #include "CursoUnreal2/MainPlayer.h"
 #include "Items/Item.h"
 
@@ -15,12 +16,12 @@ AItemBase::AItemBase()
 	RootComponent = Box;
 	Mesh=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Box);
+
 }
 
 void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AItemBase::HandleInteraction()

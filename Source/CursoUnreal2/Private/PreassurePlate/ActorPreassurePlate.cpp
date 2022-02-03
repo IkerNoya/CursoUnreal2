@@ -3,6 +3,15 @@
 
 #include "PreassurePlate/ActorPreassurePlate.h"
 
+#include "Components/BillboardComponent.h"
+#include "Items/Item.h"
+
+void AActorPreassurePlate::BeginPlay()
+{
+	Super::BeginPlay();
+	
+}
+
 void AActorPreassurePlate::HandleInteraction()
 {
 	Super::HandleInteraction();
