@@ -13,6 +13,7 @@ class CURSOUNREAL2_API AGenerator : public AActor
 {
 	GENERATED_BODY()
 
+	bool bHasAlreadyGivenElectricity=false;
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
 	UStaticMeshComponent* Mesh;

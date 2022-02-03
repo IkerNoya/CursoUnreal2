@@ -3,6 +3,13 @@
 
 #include "Puzzles/ElectricSwitch.h"
 
+
+AElectricSwitch::AElectricSwitch()
+{
+	HintText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Hint Text"));
+	HintText->SetupAttachment(RootComponent);
+}
+
 void AElectricSwitch::AddElectricity()
 {
 	IElectricityInterface::AddElectricity();
@@ -11,7 +18,7 @@ void AElectricSwitch::AddElectricity()
 	{
 		bIsButtonActivated=true;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("CURRENT ELECTRICITY: %d"), ElectricityCount)
+	HintText->SetText(FText::FromString(FString::Printf(TEXT("%d / %d"), ElectricityCount, ElectricityNeededToActivate)));
 }
 
 void AElectricSwitch::RemoveElectricity()
@@ -22,5 +29,13 @@ void AElectricSwitch::RemoveElectricity()
 	{
 		bIsButtonActivated=false;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("CURRENT ELECTRICITY: %d"), ElectricityCount)
+	HintText->SetText(FText::FromString(FString::Printf(TEXT("%d / %d"), ElectricityCount, ElectricityNeededToActivate)));
+
+}
+
+void AElectricSwitch::BeginPlay()
+{
+	Super::BeginPlay();
+	HintText->SetText(FText::FromString(FString::Printf(TEXT("%d / %d"), ElectricityCount, ElectricityNeededToActivate)));
+
 }

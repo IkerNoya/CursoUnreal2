@@ -61,10 +61,12 @@ void AGenerator::RemoveElectricity()
 void AGenerator::OnOverlapBegin(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComp,
                                 int32 OtherIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor->GetClass() == Cable)
+	if (OtherActor->GetClass() == Cable && !bHasAlreadyGivenElectricity)
 	{
 		AddElectricity();
 		AttachCable(OtherComp);
+		bHasAlreadyGivenElectricity=true;
+		UE_LOG(LogTemp, Warning, TEXT("Entro"));
 	}
 
 }
@@ -72,9 +74,12 @@ void AGenerator::OnOverlapBegin(UPrimitiveComponent* Component, AActor* OtherAct
 void AGenerator::OnOverlapEnd(UPrimitiveComponent* Component, AActor* OtherActor,
                               UPrimitiveComponent* OtherComp, int32 OtherIndex)
 {
-	if (OtherActor->GetClass() == Cable)
+	if (OtherActor->GetClass() == Cable && bHasAlreadyGivenElectricity)
 	{
 		RemoveElectricity();
 		DetachCable();
+		bHasAlreadyGivenElectricity=false;
+		UE_LOG(LogTemp, Warning, TEXT("Salgo"));
+
 	}
 }

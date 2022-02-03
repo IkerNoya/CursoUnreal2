@@ -8,7 +8,7 @@
 void AWeightPreassurePlate::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	WeightText->SetText(FString::Printf(TEXT("Weight\n 0 / %d"), FMath::RoundToInt(MassToActivate)));
 }
 
 void AWeightPreassurePlate::HandleInteraction()
@@ -37,6 +37,12 @@ void AWeightPreassurePlate::HandleInteraction()
 	}
 }
 
+AWeightPreassurePlate::AWeightPreassurePlate()
+{
+	WeightText = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Weight Text"));
+	WeightText->SetupAttachment(RootComponent);
+}
+
 bool AWeightPreassurePlate::IsMassEnoughToActivate()
 {
 	float Mass = 0.f;
@@ -53,6 +59,6 @@ bool AWeightPreassurePlate::IsMassEnoughToActivate()
 			}
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Mass: %f | MassToActivate: %f"), Mass, MassToActivate);
+	WeightText->SetText(FString::Printf(TEXT("Weight\n %d / %d"), FMath::RoundToInt(Mass), FMath::RoundToInt(MassToActivate)));
 	return Mass>=MassToActivate;
 }
