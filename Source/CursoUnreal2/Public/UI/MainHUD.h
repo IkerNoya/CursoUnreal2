@@ -13,5 +13,11 @@ UCLASS()
 class CURSOUNREAL2_API AMainHUD : public AHUD
 {
 	GENERATED_BODY()
-	
+
+
+public:
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UI)
+	void OpenPause();
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UI)
+	void ActivateWinWidget();
 };

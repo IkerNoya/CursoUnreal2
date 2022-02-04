@@ -97,7 +97,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = Gameplay)
 	FGameOver GameOver;
 	void ActivatePause();
-
+	
 	UFUNCTION(BlueprintImplementableEvent, Category = Inventory)
 	void HandleInventory();
 	

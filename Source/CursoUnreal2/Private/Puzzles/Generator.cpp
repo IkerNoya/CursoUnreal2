@@ -66,7 +66,6 @@ void AGenerator::OnOverlapBegin(UPrimitiveComponent* Component, AActor* OtherAct
 		AddElectricity();
 		AttachCable(OtherComp);
 		bHasAlreadyGivenElectricity=true;
-		UE_LOG(LogTemp, Warning, TEXT("Entro"));
 	}
 
 }
@@ -79,7 +78,6 @@ void AGenerator::OnOverlapEnd(UPrimitiveComponent* Component, AActor* OtherActor
 		RemoveElectricity();
 		DetachCable();
 		bHasAlreadyGivenElectricity=false;
-		UE_LOG(LogTemp, Warning, TEXT("Salgo"));
 
 	}
 }
