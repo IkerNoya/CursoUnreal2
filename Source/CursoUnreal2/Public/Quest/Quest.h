@@ -7,6 +7,7 @@
 #include "FQuestStruct.h"
 #include "Quest.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCheckQuestStatus, FName, QuestName);
 UCLASS()
 class CURSOUNREAL2_API AQuest : public AActor
 {
@@ -15,6 +16,9 @@ class CURSOUNREAL2_API AQuest : public AActor
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	FQuestStruct QuestData;
+
+	UPROPERTY(BlueprintAssignable, Category = Quest)
+	FCheckQuestStatus CheckQuestStatus;
 
 	AQuest();
 

@@ -23,6 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-
+	UFUNCTION(BlueprintCallable, Category = Quest)
+	AQuest* GetQuestByName(FName Name);
+	UFUNCTION()
+	void CheckQuestStatus(FName QuestName);
 };

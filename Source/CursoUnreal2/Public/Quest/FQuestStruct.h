@@ -38,6 +38,8 @@ struct CURSOUNREAL2_API FQuestStruct
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	FName Name;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	int32 Id;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<FObjectivesStruct> Objectives;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
@@ -48,6 +50,7 @@ struct CURSOUNREAL2_API FQuestStruct
 	FQuestStruct()
 	{
 		Name = "Quest";
+		Id=0;
 
 		bIsActive=false;
 		bIsCompleted=false;

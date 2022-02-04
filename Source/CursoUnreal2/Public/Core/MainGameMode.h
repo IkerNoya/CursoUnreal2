@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/TriggerBox.h"
 #include "GameFramework/GameModeBase.h"
+#include "Quest/QuestManager.h"
 #include "UI/MainHUD.h"
 
 #include "MainGameMode.generated.h"
@@ -28,6 +29,8 @@ protected:
 	ATriggerBox* RespawnPoint;
 	UPROPERTY()
 	AActor* PlayerStart;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Quest)
+	AQuestManager* QuestManager;
 
 	virtual void BeginPlay() override;
 
@@ -46,4 +49,6 @@ public:
 	void ActivatePause();
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 	void RespawnPlayer(class AMainPlayer* Player);
+	UFUNCTION()
+	AQuestManager* GetQuestManager();
 };

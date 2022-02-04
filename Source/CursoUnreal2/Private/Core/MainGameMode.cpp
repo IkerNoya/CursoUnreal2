@@ -94,3 +94,8 @@ void AMainGameMode::RespawnPlayer(AMainPlayer* Player)
 		}
 	}
 }
+
+AQuestManager* AMainGameMode::GetQuestManager()
+{
+	return QuestManager;
+}
