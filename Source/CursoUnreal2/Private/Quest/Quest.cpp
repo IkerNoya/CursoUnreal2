@@ -36,6 +36,7 @@ void AQuest::CompleteStepInObjective(int32 ObjectiveId)
 	if(QuestData.Objectives[ObjectiveId].CurrentStep >= QuestData.Objectives[ObjectiveId].StepsToComplete)
 	{
 		QuestData.Objectives[ObjectiveId].bIsObjectiveComplete=true;
+		CheckQuestCompletion();
 		CheckQuestStatus.Broadcast(QuestData.Name);
 	}
 }

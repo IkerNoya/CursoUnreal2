@@ -3,6 +3,7 @@
 
 #include "Quest/QuestManager.h"
 
+
 // Sets default values
 AQuestManager::AQuestManager()
 {
@@ -18,6 +19,7 @@ void AQuestManager::BeginPlay()
 	{
 		Quest->CheckQuestStatus.AddDynamic(this, &AQuestManager::CheckQuestStatus);
 		Quest->QuestData.bIsActive=true;
+		UE_LOG(LogTemp, Warning, TEXT("Quest: %s\n %s"), *Quest->QuestData.Name.ToString(), *Quest->QuestData.Objectives[0].Description);
 	}
 }
 
@@ -41,6 +43,7 @@ void AQuestManager::CheckQuestStatus(FName QuestName)
 	if (Quest && Quest->QuestData.bIsCompleted)
 	{
 		Quest->QuestData.bIsActive = false;
+		UE_LOG(LogTemp, Warning, TEXT("Completed Quest: %s"), *Quest->QuestData.Name.ToString());
 		// TODO: Manejo de UI - Condimentar a gusto
 	}
 }
