@@ -9,6 +9,7 @@
 
 void AMainGameMode::BeginPlay()
 {
+	
 	Super::BeginPlay();
 	CurrentLevel = UGameplayStatics::GetCurrentLevelName(GetWorld());
 	UMainGameInstance* GameInstance = Cast<UMainGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -17,17 +18,13 @@ void AMainGameMode::BeginPlay()
 	if(GameInstance)
 	{
 		int32 Index = GameInstance->LevelNames.Find(CurrentLevel);
-		UE_LOG(LogTemp, Error, TEXT("Index: %d"), Index);
 		if(Index < GameInstance->LevelNames.Num()-1)
 		{
 			NextLevelName = GameInstance->LevelNames[Index+1];
-			UE_LOG(LogTemp, Error, TEXT("A"));
 		}
 		else
 		{
 			NextLevelName = GameInstance->LevelNames[0];
-			UE_LOG(LogTemp, Error, TEXT("B"));
-
 		}
 	}
 	else
@@ -37,6 +34,7 @@ void AMainGameMode::BeginPlay()
 	if(Player)
 	{
 		Player->Pause.AddDynamic(this, &AMainGameMode::ActivatePause);
+		Player->Respawn.AddDynamic(this, &AMainGameMode::RespawnPlayer);
 	}
 	else
 	{
@@ -46,7 +44,12 @@ void AMainGameMode::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Couldn't cast hud"));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Current: %s, Next: %s"), *CurrentLevel, *NextLevelName);
+
+	PlayerStart = FindPlayerStart(GetWorld()->GetFirstPlayerController());
+	if(!PlayerStart)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find player start"));
+	}
 	
 }
 
@@ -71,4 +74,23 @@ void AMainGameMode::RestartGame()
 void AMainGameMode::QuitGame()
 {
 	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+}
+
+void AMainGameMode::RespawnPlayer(AMainPlayer* Player)
+{
+	if(RespawnPoint)
+	{
+		Player->SetActorLocation(RespawnPoint->GetActorLocation());
+	}
+	else
+	{
+		if(PlayerStart)
+		{
+			Player->SetActorLocation(PlayerStart->GetActorLocation());
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("No player start"));
+		}
+	}
 }

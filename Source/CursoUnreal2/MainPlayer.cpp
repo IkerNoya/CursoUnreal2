@@ -3,6 +3,7 @@
 
 #include "MainPlayer.h"
 
+#include "Damage/OutOfMapDamage.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Items/Item.h"
 #include "Kismet/GameplayStatics.h"
@@ -86,6 +87,11 @@ float AMainPlayer::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 	{
 		GameOver.Broadcast();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
+	}
+	UOutOfMapDamage* Damage = Cast<UOutOfMapDamage>(DamageEvent.DamageTypeClass->GetDefaultObject());
+	if(Damage)
+	{
+		Respawn.Broadcast(this);
 	}
 	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }
@@ -267,6 +273,7 @@ void AMainPlayer::BeginDestroy()
 	DecreaseHp.Clear();
 	IncreaseHp.Clear();
 	GameOver.Clear();
+	Respawn.Clear();
 	Super::BeginDestroy();
 }
 

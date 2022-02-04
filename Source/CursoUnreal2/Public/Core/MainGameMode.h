@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/TriggerBox.h"
 #include "GameFramework/GameModeBase.h"
 #include "UI/MainHUD.h"
+
 #include "MainGameMode.generated.h"
 
 /**
@@ -22,10 +24,15 @@ protected:
 	FString NextLevelName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HUD)
 	AMainHUD* Hud;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	ATriggerBox* RespawnPoint;
+	UPROPERTY()
+	AActor* PlayerStart;
 
 	virtual void BeginPlay() override;
 
 public:
+
 	UFUNCTION(BlueprintCallable, Category = Game)
 	void NextLevel();
 	UFUNCTION(BlueprintCallable, Category = Game)
@@ -37,4 +44,6 @@ public:
 	void ActivateWinCondition();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ActivatePause();
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	void RespawnPlayer(class AMainPlayer* Player);
 };

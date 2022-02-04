@@ -48,6 +48,10 @@ protected:
 	
 	bool bIsRotatingObject = false;
 public:
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRespawn, AMainPlayer*, Player);
+	UPROPERTY(BlueprintAssignable, Category = Gameplay)
+	FRespawn Respawn;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Gameplay)
 	UInventoryComponent* Inventory;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Grabber)
