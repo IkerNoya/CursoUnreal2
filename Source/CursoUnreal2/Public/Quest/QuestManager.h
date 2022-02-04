@@ -12,10 +12,12 @@ UCLASS()
 class CURSOUNREAL2_API AQuestManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
 	TArray<AQuest*> Quests;
+	
+public:
+
 	
 	AQuestManager();
 
@@ -27,4 +29,10 @@ public:
 	AQuest* GetQuestByName(FName Name);
 	UFUNCTION()
 	void CheckQuestStatus(FName QuestName);
+	UFUNCTION(BlueprintCallable, Category = Quest)
+	void AddQuest(AQuest* NewQuest);
+	UFUNCTION(BlueprintCallable, Category = Quest)
+	void RemoveQuest(AQuest* Quest);
+	UFUNCTION(BlueprintCallable, Category = Quest)
+	TArray<AQuest*>& GetQuests();
 };

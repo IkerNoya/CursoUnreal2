@@ -3,8 +3,6 @@
 
 #include "Quest/QuestManager.h"
 
-#include "Android/AndroidRuntimeSettings/Classes/AndroidRuntimeSettings.h"
-
 // Sets default values
 AQuestManager::AQuestManager()
 {
@@ -19,6 +17,7 @@ void AQuestManager::BeginPlay()
 	for (AQuest* Quest : Quests)
 	{
 		Quest->CheckQuestStatus.AddDynamic(this, &AQuestManager::CheckQuestStatus);
+		Quest->QuestData.bIsActive=true;
 	}
 }
 
@@ -45,3 +44,34 @@ void AQuestManager::CheckQuestStatus(FName QuestName)
 		// TODO: Manejo de UI - Condimentar a gusto
 	}
 }
+
+void AQuestManager::AddQuest(AQuest* NewQuest)
+{
+	if(NewQuest)
+	{
+		NewQuest->QuestData.bIsActive = true;
+		Quests.Add(NewQuest);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Quest is Invalid"));
+	}
+}
+
+void AQuestManager::RemoveQuest(AQuest* Quest)
+{
+	if(Quest)
+	{
+		Quests.Remove(Quest);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Quest is Invalid"));
+	}
+}
+
+TArray<AQuest*>& AQuestManager::GetQuests()
+{
+	return Quests;
+}
+

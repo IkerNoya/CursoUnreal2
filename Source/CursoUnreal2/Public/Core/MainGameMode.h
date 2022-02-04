@@ -29,7 +29,7 @@ protected:
 	ATriggerBox* RespawnPoint;
 	UPROPERTY()
 	AActor* PlayerStart;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Quest)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	AQuestManager* QuestManager;
 
 	virtual void BeginPlay() override;

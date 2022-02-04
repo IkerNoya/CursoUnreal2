@@ -9,18 +9,22 @@
 
 void AMainGameMode::BeginPlay()
 {
-	
 	Super::BeginPlay();
+	//Quest Setup ---------------------------------------------------------------------------------------------------
+	GetQuestManager();
+	
+	//Level Setup ---------------------------------------------------------------------------------------------------
+
 	CurrentLevel = UGameplayStatics::GetCurrentLevelName(GetWorld());
 	UMainGameInstance* GameInstance = Cast<UMainGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	AMainPlayer* Player = Cast<AMainPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(),0));
+	AMainPlayer* Player = Cast<AMainPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	Hud = Cast<AMainHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-	if(GameInstance)
+	if (GameInstance)
 	{
 		int32 Index = GameInstance->LevelNames.Find(CurrentLevel);
-		if(Index < GameInstance->LevelNames.Num()-1)
+		if (Index < GameInstance->LevelNames.Num() - 1)
 		{
-			NextLevelName = GameInstance->LevelNames[Index+1];
+			NextLevelName = GameInstance->LevelNames[Index + 1];
 		}
 		else
 		{
@@ -31,7 +35,7 @@ void AMainGameMode::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("NO HAY GAMEINSTANCE PAPI"));
 	}
-	if(Player)
+	if (Player)
 	{
 		Player->Pause.AddDynamic(this, &AMainGameMode::ActivatePause);
 		Player->Respawn.AddDynamic(this, &AMainGameMode::RespawnPlayer);
@@ -40,17 +44,16 @@ void AMainGameMode::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Couldn't get player character class"));
 	}
-	if(!Hud)
+	if (!Hud)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Couldn't cast hud"));
 	}
 
 	PlayerStart = FindPlayerStart(GetWorld()->GetFirstPlayerController());
-	if(!PlayerStart)
+	if (!PlayerStart)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Couldn't find player start"));
 	}
-	
 }
 
 void AMainGameMode::NextLevel()
@@ -58,7 +61,7 @@ void AMainGameMode::NextLevel()
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 	FInputModeGameOnly InputMode;
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->SetInputMode(InputMode);
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor=false;
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
 	UGameplayStatics::OpenLevel(GetWorld(), *NextLevelName);
 }
 
@@ -67,24 +70,25 @@ void AMainGameMode::RestartGame()
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 	FInputModeGameOnly InputMode;
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->SetInputMode(InputMode);
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor=false;
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
 	UGameplayStatics::OpenLevel(GetWorld(), *CurrentLevel);
 }
 
 void AMainGameMode::QuitGame()
 {
-	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0),
+	                               EQuitPreference::Quit, false);
 }
 
 void AMainGameMode::RespawnPlayer(AMainPlayer* Player)
 {
-	if(RespawnPoint)
+	if (RespawnPoint)
 	{
 		Player->SetActorLocation(RespawnPoint->GetActorLocation());
 	}
 	else
 	{
-		if(PlayerStart)
+		if (PlayerStart)
 		{
 			Player->SetActorLocation(PlayerStart->GetActorLocation());
 		}
@@ -97,5 +101,31 @@ void AMainGameMode::RespawnPlayer(AMainPlayer* Player)
 
 AQuestManager* AMainGameMode::GetQuestManager()
 {
-	return QuestManager;
+	if (IsValid(QuestManager))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Already has a quest manager"));
+		return QuestManager;
+	}
+
+	AQuestManager* AuxiliaryQuestManager = nullptr;
+	AuxiliaryQuestManager = Cast<AQuestManager>(
+		UGameplayStatics::GetActorOfClass(GetWorld(), AQuestManager::StaticClass()));
+	if (AuxiliaryQuestManager)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Found quest manager"));
+
+		QuestManager = AuxiliaryQuestManager;
+		return QuestManager;
+	}
+	AActor* Actor = nullptr;
+	Actor = GetWorld()->SpawnActor(AQuestManager::StaticClass());
+	AuxiliaryQuestManager = Cast<AQuestManager>(Actor);
+	if (AuxiliaryQuestManager)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Created a quest manager"));
+		QuestManager = AuxiliaryQuestManager;
+		return QuestManager;
+	}
+	UE_LOG(LogTemp, Error, TEXT("Couldn`t get QuestManager"));
+	return nullptr;
 }
