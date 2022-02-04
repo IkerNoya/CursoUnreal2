@@ -3,6 +3,7 @@
 
 #include "Quest/Quest.h"
 
+
 // Sets default values
 AQuest::AQuest()
 {
@@ -10,10 +11,37 @@ AQuest::AQuest()
 
 }
 
+void AQuest::CheckQuestCompletion()
+{
+	for(int i = 0; i < QuestData.Objectives.Num(); i++)
+	{
+		if(!QuestData.Objectives[i].bIsObjectiveComplete)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Not all objectives were completed"));
+			return;
+		}
+	}
+	CompleteQuest();
+}
+
 void AQuest::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AQuest::CompleteStepInObjective(int32 ObjectiveId)
+{
+	QuestData.Objectives[ObjectiveId].CurrentStep++;
+	if(QuestData.Objectives[ObjectiveId].CurrentStep >= QuestData.Objectives[ObjectiveId].StepsToComplete)
+	{
+		QuestData.Objectives[ObjectiveId].bIsObjectiveComplete=true;
+	}
+}
+
+void AQuest::CompleteQuest()
+{
+	QuestData.bIsCompleted=true;
 }
 
 

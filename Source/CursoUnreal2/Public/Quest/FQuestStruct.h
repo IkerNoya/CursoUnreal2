@@ -17,12 +17,16 @@ struct FObjectivesStruct
 
 	int32 CurrentStep;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
+	bool bIsObjectiveComplete;
+
 	FObjectivesStruct()
 	{
 		Description = "This is an Objective";
 		StepsToComplete = 1;
 
 		CurrentStep=0;
+		bIsObjectiveComplete=false;
 	}
 };
 

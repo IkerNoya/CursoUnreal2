@@ -18,8 +18,14 @@ public:
 
 	AQuest();
 
+private:
+	void CompleteQuest();
+
 protected:
 	virtual void BeginPlay() override;
+public:
+	void CompleteStepInObjective(int32 ObjectiveId);
 	
+	void CheckQuestCompletion();
 
 };
