@@ -3,6 +3,8 @@
 
 #include "Quest/QuestManager.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AQuestManager::AQuestManager()
@@ -15,10 +17,21 @@ AQuestManager::AQuestManager()
 void AQuestManager::BeginPlay()
 {
 	Super::BeginPlay();
+	AHUD* AuxHud = GetWorld()->GetFirstPlayerController()->GetHUD();
+	Hud = Cast<AMainHUD>(AuxHud);
+	if(!Hud)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Hud not found in %s"), *GetName());
+	}
+	
 	for (AQuest* Quest : Quests)
 	{
 		Quest->CheckQuestStatus.AddDynamic(this, &AQuestManager::CheckQuestStatus);
 		Quest->QuestData.bIsActive=true;
+		if(Hud)
+		{
+			Hud->AddQuestWidget(Quest);
+		}
 		UE_LOG(LogTemp, Warning, TEXT("Quest: %s\n %s"), *Quest->QuestData.Name.ToString(), *Quest->QuestData.Objectives[0].Description);
 	}
 }
@@ -54,6 +67,10 @@ void AQuestManager::AddQuest(AQuest* NewQuest)
 	{
 		NewQuest->QuestData.bIsActive = true;
 		Quests.Add(NewQuest);
+		if(Hud)
+		{
+			Hud->AddQuestWidget(NewQuest);
+		}
 	}
 	else
 	{

@@ -20,4 +20,6 @@ public:
 	void OpenPause();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UI)
 	void ActivateWinWidget();
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Quests)
+	void AddQuestWidget(class AQuest* Quest);
 };

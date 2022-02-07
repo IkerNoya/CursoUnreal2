@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Quest.h"
 #include "GameFramework/Actor.h"
+#include "UI/MainHUD.h"
 #include "QuestManager.generated.h"
 
 
@@ -15,6 +16,8 @@ class CURSOUNREAL2_API AQuestManager : public AActor
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
 	TArray<AQuest*> Quests;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
+	AMainHUD* Hud;
 	
 public:
 
@@ -35,4 +38,5 @@ public:
 	void RemoveQuest(AQuest* Quest);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	TArray<AQuest*>& GetQuests();
+
 };
