@@ -14,17 +14,12 @@ class CURSOUNREAL2_API UObjectiveUI : public UUserWidget
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* Canvas;
-	//Buscar como crear widget manualmente
-	UPROPERTY(meta=(BindWidget))
-	class UTextBlock* ObjectiveDescription = nullptr;
 
-	virtual void NativeConstruct() override;
-	
-	UFUNCTION(BlueprintCallable)
-	void SetObjectiveText(FString Objective);
+	UFUNCTION(BlueprintCallable, Category=Quests)
+	void SetObjective(FString Objective);
 
-	void InitializeObjective();
-	
-	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = Quests)
+	FString GetObjective();
+
 	void CompleteObjective();
 };

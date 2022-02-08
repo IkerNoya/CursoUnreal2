@@ -22,11 +22,9 @@ class CURSOUNREAL2_API UQuestUI : public UUserWidget
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UCanvasPanel* Canvas;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
-	UObjectiveUI* ObjectiveUI;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = UI)
 	AMainHUD* Hud;
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UVerticalBox* QuestBox;
 
 
@@ -37,5 +35,8 @@ public:
 	AQuest* Quest;
 
 	virtual void NativeConstruct() override;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Quests)
+	void CreateObjectives(AQuest* QuestObjective);
 	
 };

@@ -14,7 +14,7 @@ struct FObjectivesStruct
 	FString Description;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
 	int32 StepsToComplete;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Objective)
 	int32 CurrentStep;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)

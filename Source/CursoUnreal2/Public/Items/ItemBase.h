@@ -13,6 +13,7 @@ class CURSOUNREAL2_API AItemBase : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 public:
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPickUp, AItemBase*, PickedItem);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Items);
 	TSubclassOf<class UItem> Item;
 protected:
