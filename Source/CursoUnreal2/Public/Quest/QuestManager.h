@@ -6,9 +6,10 @@
 #include "Quest.h"
 #include "GameFramework/Actor.h"
 #include "UI/MainHUD.h"
+#include "Data/QuestDataAsset.h"
 #include "QuestManager.generated.h"
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnQuestActivated, AQuest*, NewQuest);
 UCLASS()
 class CURSOUNREAL2_API AQuestManager : public AActor
 {
@@ -16,11 +17,13 @@ class CURSOUNREAL2_API AQuestManager : public AActor
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
 	TArray<AQuest*> Quests;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
 	AMainHUD* Hud;
 	
 public:
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
+	UQuestDataAsset* QuestData;
 	
 	AQuestManager();
 
@@ -38,5 +41,7 @@ public:
 	void RemoveQuest(AQuest* Quest);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	TArray<AQuest*>& GetQuests();
+	UPROPERTY(BlueprintAssignable)
+	FOnQuestActivated OnQuestActivated;
 
 };

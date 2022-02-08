@@ -27,7 +27,6 @@ void AQuest::CheckQuestCompletion()
 void AQuest::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AQuest::CompleteStepInObjective(int32 ObjectiveId)

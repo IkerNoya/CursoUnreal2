@@ -16,6 +16,7 @@ AQuestManager::AQuestManager()
 // Called when the game starts or when spawned
 void AQuestManager::BeginPlay()
 {
+
 	Super::BeginPlay();
 	AHUD* AuxHud = GetWorld()->GetFirstPlayerController()->GetHUD();
 	Hud = Cast<AMainHUD>(AuxHud);
@@ -32,8 +33,8 @@ void AQuestManager::BeginPlay()
 		{
 			Hud->AddQuestWidget(Quest);
 		}
-		UE_LOG(LogTemp, Warning, TEXT("Quest: %s\n %s"), *Quest->QuestData.Name.ToString(), *Quest->QuestData.Objectives[0].Description);
 	}
+	
 }
 
 AQuest* AQuestManager::GetQuestByName(FName Name)
@@ -56,8 +57,6 @@ void AQuestManager::CheckQuestStatus(FName QuestName)
 	if (Quest && Quest->QuestData.bIsCompleted)
 	{
 		Quest->QuestData.bIsActive = false;
-		UE_LOG(LogTemp, Warning, TEXT("Completed Quest: %s"), *Quest->QuestData.Name.ToString());
-		// TODO: Manejo de UI - Condimentar a gusto
 	}
 }
 
@@ -67,6 +66,7 @@ void AQuestManager::AddQuest(AQuest* NewQuest)
 	{
 		NewQuest->QuestData.bIsActive = true;
 		Quests.Add(NewQuest);
+		OnQuestActivated.Broadcast(NewQuest);
 		if(Hud)
 		{
 			Hud->AddQuestWidget(NewQuest);
