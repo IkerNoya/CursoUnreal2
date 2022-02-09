@@ -22,16 +22,5 @@ void UUserQuestComponent::BeginPlay()
 	{
 		QuestManager = GameMode->GetQuestManager();
 	}
-	if(QuestManager)
-	{
-		QuestManager->OnQuestActivated.AddDynamic(this, &UUserQuestComponent::AddActiveQuest);
-		ActiveQuest = QuestManager->GetQuests();
-	}
 	
 }
-
-void UUserQuestComponent::AddActiveQuest(AQuest* NewQuest)
-{
-	ActiveQuest.Add(NewQuest);
-}
-

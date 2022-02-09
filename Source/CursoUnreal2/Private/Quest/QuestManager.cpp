@@ -6,14 +6,21 @@
 #include "Kismet/GameplayStatics.h"
 
 
-// Sets default values
 AQuestManager::AQuestManager()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-// Called when the game starts or when spawned
+void AQuestManager::ActivateQuest(AQuest* Quest)
+{
+	if(ActiveQuests.Num() < MaxActiveQuest && Quest->GetQuestState() == EQuestState::Inactive)
+	{
+		Quest->SetQuestState(EQuestState::Active);
+		ActiveQuests.Add(Quest);
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests"));
+}
+
 void AQuestManager::BeginPlay()
 {
 
@@ -24,14 +31,14 @@ void AQuestManager::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Hud not found in %s"), *GetName());
 	}
-	
-	for (AQuest* Quest : Quests)
+	TArray<int32> Keys;
+	Quests.GenerateKeyArray(Keys);
+	for(int i = 0; i < Quests.Num(); i++)
 	{
-		Quest->CheckQuestStatus.AddDynamic(this, &AQuestManager::CheckQuestStatus);
-		Quest->QuestData.bIsActive=true;
-		if(Hud)
+		if(Quests.Contains(Keys[i]))
 		{
-			Hud->AddQuestWidget(Quest);
+			ActivateQuest(Quests[Keys[i]]);
+			Quests[Keys[i]]->OnCompleteQuest.AddDynamic(this, &AQuestManager::OnQuestCompleted);
 		}
 	}
 	
@@ -39,38 +46,41 @@ void AQuestManager::BeginPlay()
 
 AQuest* AQuestManager::GetQuestByName(FName Name)
 {
-	AQuest* ReturnedQuest = nullptr;
-	for (AQuest* Quest : Quests)
+	for(int i = 0; i < Quests.Num(); i++)
 	{
-		if (Quest && Quest->QuestData.Name == Name)
+		if(Quests.Contains(i) && Quests[i] && Quests[i]->QuestData.Name == Name)
 		{
-			ReturnedQuest = Quest;
-			break;
+			return Quests[i];
 		}
 	}
-	return ReturnedQuest;
+	return nullptr;
 }
 
-void AQuestManager::CheckQuestStatus(FName QuestName)
+AQuest* AQuestManager::GetQuestById(int32 QuestId)
 {
-	AQuest* Quest = GetQuestByName(QuestName);
-	if (Quest && Quest->QuestData.bIsCompleted)
+	if(Quests.Contains(QuestId))
 	{
-		Quest->QuestData.bIsActive = false;
+		return Quests[QuestId];
 	}
+	return nullptr;
+	
+}
+
+void AQuestManager::OnQuestCompleted()
+{
+	//Cositas extras
 }
 
 void AQuestManager::AddQuest(AQuest* NewQuest)
 {
 	if(NewQuest)
 	{
-		NewQuest->QuestData.bIsActive = true;
-		Quests.Add(NewQuest);
-		OnQuestActivated.Broadcast(NewQuest);
-		if(Hud)
-		{
-			Hud->AddQuestWidget(NewQuest);
-		}
+		TArray<int32> Ids;
+		Quests.GenerateKeyArray(Ids);
+		int32 Id = FMath::Max(Ids) + 1;
+		ActivateQuest(NewQuest);
+		NewQuest->OnCompleteQuest.AddDynamic(this, &AQuestManager::OnQuestCompleted);
+		Quests.Add(Id, NewQuest);
 	}
 	else
 	{
@@ -78,20 +88,15 @@ void AQuestManager::AddQuest(AQuest* NewQuest)
 	}
 }
 
-void AQuestManager::RemoveQuest(AQuest* Quest)
+void AQuestManager::RemoveQuest(int32 Id)
 {
-	if(Quest)
+	if(Quests.Contains(Id))
 	{
-		Quests.Remove(Quest);
+		Quests.Remove(Id);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Quest is Invalid"));
 	}
-}
-
-TArray<AQuest*>& AQuestManager::GetQuests()
-{
-	return Quests;
 }
 

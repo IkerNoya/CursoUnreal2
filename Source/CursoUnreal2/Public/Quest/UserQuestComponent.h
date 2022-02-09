@@ -16,19 +16,16 @@ class CURSOUNREAL2_API UUserQuestComponent : public UActorComponent
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
 	AQuestManager* QuestManager;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
-	TArray<AQuest*> ActiveQuest;
 
 public:	
-	// Sets default values for this component's properties
+
 	UUserQuestComponent();
 
+
 protected:
-	// Called when the game starts
+
 	virtual void BeginPlay() override;
 	
-	UFUNCTION()
-	void AddActiveQuest(AQuest* NewQuest);
 	
 
 		

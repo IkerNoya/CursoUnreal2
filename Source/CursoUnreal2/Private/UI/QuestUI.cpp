@@ -4,7 +4,6 @@
 #include "UI/QuestUI.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "Quest/ObjectivePickup.h"
 
 void UQuestUI::NativeConstruct()
 {

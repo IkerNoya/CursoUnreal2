@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "Quest/FQuestStruct.h"
+#include  "Quest/Quest.h"
 #include "QuestDataAsset.generated.h"
 
 UCLASS()
@@ -14,5 +15,6 @@ class CURSOUNREAL2_API UQuestDataAsset : public UDataAsset
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FQuestStruct> Quests;
+	TMap<int32, FQuestStruct> Quests;
+	
 };

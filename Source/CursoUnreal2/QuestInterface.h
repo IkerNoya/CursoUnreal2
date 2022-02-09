@@ -26,4 +26,5 @@ public:
 	virtual void OnPointReached(){}
 	UFUNCTION(Category = Quest)
 	virtual void OnActorActivated(){}
+	virtual void CompleteTask(){}
 };

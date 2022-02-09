@@ -7,7 +7,6 @@
 #include "ToolContextInterfaces.h"
 #include "CursoUnreal2/QuestInterface.h"
 #include "Items/Item.h"
-#include "Quest/ObjectivePickup.h"
 
 #define ECC_Interactable          ECC_GameTraceChannel1
 
@@ -41,21 +40,7 @@ void UInteractComponent::Interact()
 		if (Actor)
 		{
 			IInteractionInterface* InteractionObject = Cast<IInteractionInterface>(Actor);
-			UActorComponent* ObjectiveObject = Actor->GetComponentByClass(UObjectivePickup::StaticClass());
-			if(ObjectiveObject)
-			{
-				IQuestInterface* QuestInterface = Cast<IQuestInterface>(ObjectiveObject);
-				if(QuestInterface)
-				{
-					QuestInterface->OnPickup();
-					UE_LOG(LogTemp, Display, TEXT("SOY OBJETIVO"));
-				}
-				else
-				{
-					UE_LOG(LogTemp, Warning, TEXT("NO HAY OBJETIVO PA"));
-				}
-			}
-
+		
 			if(InteractionObject)
 			{
 				InteractionObject->HandleInteraction();
