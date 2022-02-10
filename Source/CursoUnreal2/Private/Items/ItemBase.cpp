@@ -3,7 +3,6 @@
 
 #include "Items/ItemBase.h"
 
-#include "Components/BillboardComponent.h"
 #include "CursoUnreal2/MainPlayer.h"
 #include "Items/Item.h"
 

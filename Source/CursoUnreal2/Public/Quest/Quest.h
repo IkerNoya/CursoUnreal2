@@ -16,35 +16,42 @@ enum class EQuestState
 	Failed
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCompleteQuest);
-
 UCLASS()
 class CURSOUNREAL2_API AQuest : public AActor
 {
 	GENERATED_BODY()
-
-public:
+protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
-	FQuestStruct QuestData;
+	FName Name;
+public:
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuest, AQuest*, Quest);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	TArray<FObjectivesStruct> Objectives;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
 	EQuestState QuestState;
 
 	AQuest();
 
 private:
-	void CompleteQuest();
 	virtual void BeginDestroy() override;
 
 protected:
 	virtual void BeginPlay() override;
+
+	void CompleteQuest();
+
 public:
-	void CompleteStepInObjective(int32 ObjectiveId);
-
-	void CheckQuestCompletion();
-
+	UFUNCTION(BlueprintCallable, Category = Quest)
+	FName GetQuestName();
+	
+	virtual void CheckQuestStatus(FQuestCheckList CheckList){};
+	
 	EQuestState GetQuestState();
 	void SetQuestState(EQuestState State);
 	
 	UPROPERTY(BlueprintAssignable)
 	FOnCompleteQuest OnCompleteQuest;
 };
+
+

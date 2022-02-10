@@ -14,7 +14,6 @@ class CURSOUNREAL2_API UQuestDataAsset : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<int32, FQuestStruct> Quests;
+	
 	
 };

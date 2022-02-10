@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "QuestManager.h"
 #include "Components/ActorComponent.h"
+#include "Quest/QuestCheckList.h"
 #include "UserQuestComponent.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CURSOUNREAL2_API UUserQuestComponent : public UActorComponent
@@ -17,7 +17,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
 	AQuestManager* QuestManager;
 
-public:	
+public:
+	UPROPERTY()
+	FQuestCheckList CheckList;
+
 
 	UUserQuestComponent();
 

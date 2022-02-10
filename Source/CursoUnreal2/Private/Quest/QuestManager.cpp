@@ -2,6 +2,7 @@
 
 
 #include "Quest/QuestManager.h"
+#include "Quest/UserQuestComponent.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -48,7 +49,7 @@ AQuest* AQuestManager::GetQuestByName(FName Name)
 {
 	for(int i = 0; i < Quests.Num(); i++)
 	{
-		if(Quests.Contains(i) && Quests[i] && Quests[i]->QuestData.Name == Name)
+		if(Quests.Contains(i) && Quests[i] && Quests[i]->GetQuestName() == Name)
 		{
 			return Quests[i];
 		}
@@ -66,9 +67,13 @@ AQuest* AQuestManager::GetQuestById(int32 QuestId)
 	
 }
 
-void AQuestManager::OnQuestCompleted()
+void AQuestManager::OnQuestCompleted(AQuest* Quest)
 {
-	//Cositas extras
+	if(Quest)
+	{
+		Quest->SetQuestState(EQuestState::Completed);
+		ActiveQuests.Remove(Quest);
+	}
 }
 
 void AQuestManager::AddQuest(AQuest* NewQuest)
@@ -97,6 +102,20 @@ void AQuestManager::RemoveQuest(int32 Id)
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("Quest is Invalid"));
+	}
+}
+
+void AQuestManager::CheckQuestStatus(UUserQuestComponent* QuestEvaluator)
+{
+	if(QuestEvaluator)
+	{
+		for(auto Quest : ActiveQuests)
+		{
+			if(Quest)
+			{
+				Quest->CheckQuestStatus(QuestEvaluator->CheckList);
+			}
+		}
 	}
 }
 

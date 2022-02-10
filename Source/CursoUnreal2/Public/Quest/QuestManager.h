@@ -21,6 +21,7 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
 	TMap<int32, AQuest*> Quests;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<AQuest*> ActiveQuests;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	int32 MaxActiveQuest = 3;
@@ -34,11 +35,12 @@ protected:
 	AQuest* GetQuestByName(FName Name);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	AQuest* GetQuestById(int32 QuestId);
-	void OnQuestCompleted();
+	void OnQuestCompleted(AQuest* Quest);
 
 public:
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void AddQuest(AQuest* NewQuest);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void RemoveQuest(int32 Id);
+	void CheckQuestStatus(class UUserQuestComponent* QuestEvaluator);
 };
