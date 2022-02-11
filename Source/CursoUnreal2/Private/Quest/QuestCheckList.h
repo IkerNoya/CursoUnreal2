@@ -25,5 +25,12 @@ struct CURSOUNREAL2_API FQuestCheckList
 		InteractedObjects = nullptr;
 		DistanceTraveled = 0.f;
 	}
+
+	void Reset()
+	{
+		KillCounter = 0;
+		InteractedObjects = nullptr;
+		DistanceTraveled = 0.f;
+	}
 	
 };

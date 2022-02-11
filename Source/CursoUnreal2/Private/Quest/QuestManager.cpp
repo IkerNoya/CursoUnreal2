@@ -14,7 +14,7 @@ AQuestManager::AQuestManager()
 
 void AQuestManager::ActivateQuest(AQuest* Quest)
 {
-	if(ActiveQuests.Num() < MaxActiveQuest && Quest->GetQuestState() == EQuestState::Inactive)
+	if (ActiveQuests.Num() < MaxActiveQuest && Quest->GetQuestState() == EQuestState::Inactive)
 	{
 		Quest->SetQuestState(EQuestState::Active);
 		ActiveQuests.Add(Quest);
@@ -24,32 +24,30 @@ void AQuestManager::ActivateQuest(AQuest* Quest)
 
 void AQuestManager::BeginPlay()
 {
-
 	Super::BeginPlay();
 	AHUD* AuxHud = GetWorld()->GetFirstPlayerController()->GetHUD();
 	Hud = Cast<AMainHUD>(AuxHud);
-	if(!Hud)
+	if (!Hud)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Hud not found in %s"), *GetName());
 	}
 	TArray<int32> Keys;
 	Quests.GenerateKeyArray(Keys);
-	for(int i = 0; i < Quests.Num(); i++)
+	for (int i = 0; i < Quests.Num(); i++)
 	{
-		if(Quests.Contains(Keys[i]))
+		if (Quests.Contains(Keys[i]))
 		{
 			ActivateQuest(Quests[Keys[i]]);
 			Quests[Keys[i]]->OnCompleteQuest.AddDynamic(this, &AQuestManager::OnQuestCompleted);
 		}
 	}
-	
 }
 
 AQuest* AQuestManager::GetQuestByName(FName Name)
 {
-	for(int i = 0; i < Quests.Num(); i++)
+	for (int i = 0; i < Quests.Num(); i++)
 	{
-		if(Quests.Contains(i) && Quests[i] && Quests[i]->GetQuestName() == Name)
+		if (Quests.Contains(i) && Quests[i] && Quests[i]->GetQuestName() == Name)
 		{
 			return Quests[i];
 		}
@@ -59,26 +57,24 @@ AQuest* AQuestManager::GetQuestByName(FName Name)
 
 AQuest* AQuestManager::GetQuestById(int32 QuestId)
 {
-	if(Quests.Contains(QuestId))
+	if (Quests.Contains(QuestId))
 	{
 		return Quests[QuestId];
 	}
 	return nullptr;
-	
 }
 
 void AQuestManager::OnQuestCompleted(AQuest* Quest)
 {
-	if(Quest)
+	if (Quest)
 	{
 		Quest->SetQuestState(EQuestState::Completed);
-		ActiveQuests.Remove(Quest);
 	}
 }
 
 void AQuestManager::AddQuest(AQuest* NewQuest)
 {
-	if(NewQuest)
+	if (NewQuest)
 	{
 		TArray<int32> Ids;
 		Quests.GenerateKeyArray(Ids);
@@ -95,7 +91,7 @@ void AQuestManager::AddQuest(AQuest* NewQuest)
 
 void AQuestManager::RemoveQuest(int32 Id)
 {
-	if(Quests.Contains(Id))
+	if (Quests.Contains(Id))
 	{
 		Quests.Remove(Id);
 	}
@@ -105,17 +101,24 @@ void AQuestManager::RemoveQuest(int32 Id)
 	}
 }
 
-void AQuestManager::CheckQuestStatus(UUserQuestComponent* QuestEvaluator)
+void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 {
-	if(QuestEvaluator)
+	for (auto Quest : ActiveQuests)
 	{
-		for(auto Quest : ActiveQuests)
+		if (Quest && Quest->GetQuestState() == EQuestState::Active)
 		{
-			if(Quest)
+			Quest->CheckQuestStatus(CheckList);
+		}
+	}
+
+	for (int i = 0; i < Quests.Num(); i++)
+	{
+		if (Quests.Contains(i))
+		{
+			if (ActiveQuests.Contains(Quests[i]) && Quests[i]->GetQuestState() == EQuestState::Completed)
 			{
-				Quest->CheckQuestStatus(QuestEvaluator->CheckList);
+				ActiveQuests.Remove(Quests[i]);
 			}
 		}
 	}
 }
-

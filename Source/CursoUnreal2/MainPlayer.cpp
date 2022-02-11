@@ -8,6 +8,11 @@
 #include "Items/Item.h"
 #include "Kismet/GameplayStatics.h"
 
+void AMainPlayer::SendKill()
+{
+	Kill.Broadcast();
+}
+
 // Sets default values
 AMainPlayer::AMainPlayer()
 {
@@ -133,6 +138,7 @@ void AMainPlayer::MoveForward(float Value)
 {
 	if (Value)
 	{
+		PlayerMoving.Broadcast();
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
@@ -141,6 +147,7 @@ void AMainPlayer::MoveRight(float Value)
 {
 	if (Value)
 	{
+		PlayerMoving.Broadcast();
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }

@@ -22,5 +22,21 @@ void UUserQuestComponent::BeginPlay()
 	{
 		QuestManager = GameMode->GetQuestManager();
 	}
+	for(UTaskBase* Task : Tasks)
+	{
+		if(Task)
+		{
+			Task->InitializeTask(this);
+			Task->SendData.AddDynamic(this, &UUserQuestComponent::SendData);
+		}
+	}
 	
+}
+
+void UUserQuestComponent::SendData(FQuestCheckList List)
+{
+	if(QuestManager)
+	{
+		QuestManager->CheckQuestStatus(List);
+	}
 }

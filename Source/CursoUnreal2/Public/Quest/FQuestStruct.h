@@ -50,7 +50,7 @@ struct CURSOUNREAL2_API FObjectivesStruct
 	}
 	void CheckObjectiveComplete(FQuestCheckList List)
 	{
-		if(List.KillCounter == CheckList.KillCounter && List.DistanceTraveled == CheckList.DistanceTraveled
+		if(List.KillCounter == CheckList.KillCounter && List.DistanceTraveled >= CheckList.DistanceTraveled
 			&& List.InteractedObjects == CheckList.InteractedObjects)
 		{
 			bIsObjectiveComplete=true;

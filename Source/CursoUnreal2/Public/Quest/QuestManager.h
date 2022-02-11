@@ -35,6 +35,7 @@ protected:
 	AQuest* GetQuestByName(FName Name);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	AQuest* GetQuestById(int32 QuestId);
+	UFUNCTION()
 	void OnQuestCompleted(AQuest* Quest);
 
 public:
@@ -42,5 +43,5 @@ public:
 	void AddQuest(AQuest* NewQuest);
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void RemoveQuest(int32 Id);
-	void CheckQuestStatus(class UUserQuestComponent* QuestEvaluator);
+	void CheckQuestStatus(FQuestCheckList CheckList);
 };

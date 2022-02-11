@@ -7,8 +7,8 @@
 #include "FQuestStruct.h"
 #include "Quest.generated.h"
 
-UENUM()
-enum class EQuestState
+UENUM(BlueprintType)
+enum EQuestState 
 {
 	Inactive,
 	Active,
@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<FObjectivesStruct> Objectives;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
-	EQuestState QuestState;
+	TEnumAsByte<EQuestState> QuestState;
 
 	AQuest();
 

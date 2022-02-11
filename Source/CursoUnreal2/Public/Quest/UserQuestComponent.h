@@ -5,9 +5,8 @@
 #include "CoreMinimal.h"
 #include "QuestManager.h"
 #include "Components/ActorComponent.h"
-#include "Quest/QuestCheckList.h"
+#include "Quest/Tasks/TaskBase.h"
 #include "UserQuestComponent.generated.h"
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CURSOUNREAL2_API UUserQuestComponent : public UActorComponent
 {
@@ -18,10 +17,8 @@ protected:
 	AQuestManager* QuestManager;
 
 public:
-	UPROPERTY()
-	FQuestCheckList CheckList;
-	// UPROPERTY()
-	// TArray<Tasks>
+	UPROPERTY(Instanced, EditAnywhere, BlueprintReadOnly, Category = Task)
+	TArray<UTaskBase*> Tasks;
 
 
 	UUserQuestComponent();
@@ -30,7 +27,9 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-	
+	UFUNCTION()
+	void SendData(FQuestCheckList List);
+
 	
 
 		

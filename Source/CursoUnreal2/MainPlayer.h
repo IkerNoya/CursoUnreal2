@@ -14,6 +14,8 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FActivatePause);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUpdateHealth);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameOver);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEnemyKilled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayerMoving);
 UCLASS()
 class CURSOUNREAL2_API AMainPlayer : public ACharacter
 {
@@ -51,6 +53,13 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRespawn, AMainPlayer*, Player);
 	UPROPERTY(BlueprintAssignable, Category = Gameplay)
 	FRespawn Respawn;
+	UPROPERTY(BlueprintAssignable)
+	FEnemyKilled Kill;
+	UPROPERTY(BlueprintAssignable)
+	FPlayerMoving PlayerMoving;
+	UFUNCTION(BlueprintCallable)
+	void SendKill();
+	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Gameplay)
 	UInventoryComponent* Inventory;
