@@ -20,6 +20,8 @@ protected:
 public:
 	UPROPERTY()
 	FQuestCheckList CheckList;
+	// UPROPERTY()
+	// TArray<Tasks>
 
 
 	UUserQuestComponent();

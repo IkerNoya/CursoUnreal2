@@ -45,7 +45,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	FName GetQuestName();
 	
-	virtual void CheckQuestStatus(FQuestCheckList CheckList){};
+	void CheckQuestStatus(FQuestCheckList CheckList);
 	
 	EQuestState GetQuestState();
 	void SetQuestState(EQuestState State);

@@ -31,6 +31,23 @@ FName AQuest::GetQuestName()
 	return Name;
 }
 
+void AQuest::CheckQuestStatus(FQuestCheckList CheckList)
+{
+	bool bShouldQuestBeCompleted = true;
+	for(FObjectivesStruct Objective : Objectives)
+	{
+		Objective.CheckObjectiveComplete(CheckList);
+		if(!Objective.bIsObjectiveComplete)
+		{
+			bShouldQuestBeCompleted = false;
+		}
+	}
+	if(bShouldQuestBeCompleted)
+	{
+		CompleteQuest();
+	}
+}
+
 
 void AQuest::CompleteQuest()
 {
