@@ -38,6 +38,7 @@ struct CURSOUNREAL2_API FObjectivesStruct
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
 	bool bIsObjectiveComplete;
+	
 
 	FObjectivesStruct()
 	{

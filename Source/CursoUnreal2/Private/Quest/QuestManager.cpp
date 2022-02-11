@@ -14,12 +14,19 @@ AQuestManager::AQuestManager()
 
 void AQuestManager::ActivateQuest(AQuest* Quest)
 {
+	if(Hud)
+	{
+		Hud->AddQuestWidget(Quest);
+	}
 	if (ActiveQuests.Num() < MaxActiveQuest && Quest->GetQuestState() == EQuestState::Inactive)
 	{
 		Quest->SetQuestState(EQuestState::Active);
 		ActiveQuests.Add(Quest);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests"));
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests"));
+	}
 }
 
 void AQuestManager::BeginPlay()
