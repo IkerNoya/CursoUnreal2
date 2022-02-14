@@ -5,15 +5,19 @@
 
 void UKillObjective::CheckData(FQuestCheckList CheckList)
 {
-	if(bIsCompleted)
+	if (bIsCompleted)
 	{
 		return;
 	}
-	
+
 	Super::CheckData(CheckList);
-	CurrentKills = CheckList.KillCounter;
-	if(CurrentKills >= KillsNeeded)
+	if (CheckList.KillCounter >= CurrentProgress)
 	{
-		bIsCompleted=true;
+		CurrentProgress = CheckList.KillCounter;
+	}
+
+	if (CurrentProgress >= ProgressNeededToComplete)
+	{
+		bIsCompleted = true;
 	}
 }

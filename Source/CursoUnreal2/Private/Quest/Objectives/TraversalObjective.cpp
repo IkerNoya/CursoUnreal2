@@ -5,14 +5,17 @@
 
 void UTraversalObjective::CheckData(FQuestCheckList CheckList)
 {
-	if(bIsCompleted)
+	if (bIsCompleted)
 	{
 		return;
 	}
 	Super::CheckData(CheckList);
-	DistanceTraveled = CheckList.DistanceTraveled;
-	if(DistanceTraveled>=DistanceToTravel)
+	if (CheckList.DistanceTraveled >= CurrentProgress)
 	{
-		bIsCompleted = true;
+		CurrentProgress = CheckList.DistanceTraveled;
+		if (CurrentProgress >= ProgressNeededToComplete)
+		{
+			bIsCompleted = true;
+		}
 	}
 }

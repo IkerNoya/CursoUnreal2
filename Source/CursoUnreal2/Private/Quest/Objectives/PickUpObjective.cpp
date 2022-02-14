@@ -14,8 +14,8 @@ void UPickUpObjective::CheckData(FQuestCheckList CheckList)
 	{
 		if(PickedUpItem == CheckList.InteractedObject)
 		{
-			CurrentAmountOfItems++;
-			if(CurrentAmountOfItems >= AmountNeeded)
+			CurrentProgress++;
+			if(CurrentProgress >= ProgressNeededToComplete)
 			{
 				bIsCompleted=true;
 			}
