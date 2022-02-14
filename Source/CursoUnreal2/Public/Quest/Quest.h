@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "FQuestStruct.h"
+#include "Quest/QuestCheckList.h"
 #include "Objectives/ObjectiveBase.h"
 #include "Quest.generated.h"
 

@@ -2,7 +2,8 @@
 
 
 #include "Quest/QuestManager.h"
-#include "Quest/UserQuestComponent.h"
+
+#include "Data/QuestDataAsset.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -127,5 +128,6 @@ void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 				ActiveQuests.Remove(Quests[i]);
 			}
 		}
+
 	}
 }

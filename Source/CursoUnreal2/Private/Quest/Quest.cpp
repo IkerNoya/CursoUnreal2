@@ -3,6 +3,7 @@
 
 #include "Quest/Quest.h"
 
+
 // Sets default values
 AQuest::AQuest()
 {

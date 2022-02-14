@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Quest/FQuestStruct.h"
+#include "Quest/QuestCheckList.h"
 #include "ObjectiveBase.generated.h"
 
 UCLASS(DefaultToInstanced,EditInlineNew,BlueprintType, Blueprintable)
