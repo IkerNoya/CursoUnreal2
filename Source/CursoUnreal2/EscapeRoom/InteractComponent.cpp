@@ -5,10 +5,15 @@
 
 #include "InteractionInterface.h"
 #include "ToolContextInterfaces.h"
-#include "CursoUnreal2/QuestInterface.h"
 #include "Items/Item.h"
 
 #define ECC_Interactable          ECC_GameTraceChannel1
+
+void UInteractComponent::OnComponentDestroyed(bool bDestroyingHierarchy)
+{
+	SendInteractedObject.Clear();
+	Super::OnComponentDestroyed(bDestroyingHierarchy);
+}
 
 // Sets default values for this component's properties
 UInteractComponent::UInteractComponent()
@@ -43,6 +48,7 @@ void UInteractComponent::Interact()
 		
 			if(InteractionObject)
 			{
+				SendInteractedObject.Broadcast(Actor->GetClass());
 				InteractionObject->HandleInteraction();
 			}
 		}

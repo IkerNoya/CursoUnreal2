@@ -34,12 +34,15 @@ FName AQuest::GetQuestName()
 void AQuest::CheckQuestStatus(FQuestCheckList CheckList)
 {
 	bool bShouldQuestBeCompleted = true;
-	for(FObjectivesStruct &Objective : Objectives)
+	for(UObjectiveBase* Objective : Objectives)
 	{
-		Objective.CheckObjectiveComplete(CheckList);
-		if(!Objective.bIsObjectiveComplete)
+		if(Objective)
 		{
-			bShouldQuestBeCompleted = false;
+			Objective->CheckData(CheckList);
+			if(!Objective->bIsCompleted)
+			{
+				bShouldQuestBeCompleted = false;
+			}
 		}
 	}
 	if(bShouldQuestBeCompleted)

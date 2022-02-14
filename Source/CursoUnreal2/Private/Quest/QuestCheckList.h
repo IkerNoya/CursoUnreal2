@@ -14,7 +14,7 @@ struct CURSOUNREAL2_API FQuestCheckList
 	int32 KillCounter;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CheckList)
-	TScriptInterface<IInteractionInterface> InteractedObjects;
+	TSubclassOf<AActor> InteractedObject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CheckList)
 	float DistanceTraveled;
@@ -22,14 +22,14 @@ struct CURSOUNREAL2_API FQuestCheckList
 	FQuestCheckList()
 	{
 		KillCounter = 0;
-		InteractedObjects = nullptr;
+		InteractedObject = nullptr;
 		DistanceTraveled = 0.f;
 	}
 
 	void Reset()
 	{
 		KillCounter = 0;
-		InteractedObjects = nullptr;
+		InteractedObject = nullptr;
 		DistanceTraveled = 0.f;
 	}
 	

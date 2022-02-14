@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "FQuestStruct.h"
+#include "Objectives/ObjectiveBase.h"
 #include "Quest.generated.h"
 
 UENUM(BlueprintType)
@@ -26,8 +27,8 @@ protected:
 public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCompleteQuest, AQuest*, Quest);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
-	TArray<FObjectivesStruct> Objectives;
+	UPROPERTY(Instanced, EditAnywhere, BlueprintReadOnly, Category = Quest)
+	TArray<UObjectiveBase*> Objectives;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Quest)
 	TEnumAsByte<EQuestState> QuestState;
 

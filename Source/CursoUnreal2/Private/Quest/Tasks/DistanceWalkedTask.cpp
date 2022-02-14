@@ -30,7 +30,7 @@ void UDistanceWalkedTask::AddDistance()
 {
 	if(Player && QuestComponent)
 	{
-		DistanceTravelled += (Location - Player->GetActorLocation()).Size();
+		DistanceTravelled += (Location - Player->GetActorLocation()).Size() * GetWorld()->GetDeltaSeconds();
 		Location = Player->GetActorLocation();
 		CheckList.DistanceTraveled = DistanceTravelled;
 		SendData.Broadcast(CheckList);
