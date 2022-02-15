@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FQuestStruct.h"
 #include "Quest.h"
 #include "GameFramework/Actor.h"
 #include "UI/MainHUD.h"
@@ -27,7 +26,7 @@ public:
 	TArray<AQuest*> ActiveQuests;
 	UPROPERTY(BlueprintReadOnly, Category = Quest)
 	int32 MaxActiveQuest = 3;
-
+ 
 	AQuestManager();
 private:
 	void ActivateQuest(AQuest* Quest);

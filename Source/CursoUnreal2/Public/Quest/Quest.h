@@ -3,19 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/QuestStruct.h"
 #include "GameFramework/Actor.h"
 #include "Quest/QuestCheckList.h"
 #include "Objectives/ObjectiveBase.h"
 #include "Quest.generated.h"
 
-UENUM(BlueprintType)
-enum EQuestState 
-{
-	Inactive,
-	Active,
-	Completed,
-	Failed
-};
 
 UCLASS()
 class CURSOUNREAL2_API AQuest : public AActor

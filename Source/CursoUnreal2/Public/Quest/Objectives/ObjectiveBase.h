@@ -6,7 +6,7 @@
 #include "Quest/QuestCheckList.h"
 #include "ObjectiveBase.generated.h"
 
-UCLASS(DefaultToInstanced,EditInlineNew,BlueprintType, Blueprintable)
+UCLASS(DefaultToInstanced, EditInlineNew, BlueprintType, Blueprintable)
 class CURSOUNREAL2_API UObjectiveBase : public UObject
 {
 	GENERATED_BODY()

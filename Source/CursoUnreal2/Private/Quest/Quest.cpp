@@ -55,7 +55,7 @@ void AQuest::CheckQuestStatus(FQuestCheckList CheckList)
 
 void AQuest::CompleteQuest()
 {
-	SetQuestState(EQuestState::Completed);
+	SetQuestState(Completed);
 	OnCompleteQuest.Broadcast(this);
 }
 
