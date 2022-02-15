@@ -24,6 +24,10 @@ public:
 	TMap<int32, AQuest*> Quests;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<AQuest*> ActiveQuests;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	UDataTable* Data;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Data)
+	TArray<FName> RowNames;
 	UPROPERTY(BlueprintReadOnly, Category = Quest)
 	int32 MaxActiveQuest = 3;
  

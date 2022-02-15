@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "Engine/DataTable.h"
-#include "Quest/Objectives/ObjectiveBase.h"
+#include "Quest/Objectives/ObjectiveStruct.h"
 
 #include "QuestStruct.generated.h"
+
 UENUM(BlueprintType)
 enum EQuestState 
 {
@@ -18,11 +19,13 @@ struct FQuestData : public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	FName Name;
-	UPROPERTY(Instanced, EditAnywhere, BlueprintReadOnly, Category = Quest)
-	TArray<UObjectiveBase*> Objectives;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	TArray<FObjectiveStruct> Objectives;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TEnumAsByte<EQuestState> State;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	FDataTableRowHandle RowHandle;
 
 	FQuestData()
 	{

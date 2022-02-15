@@ -26,6 +26,7 @@ void AQuestManager::ActivateQuest(AQuest* Quest)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests"));
 	}
+	
 }
 
 void AQuestManager::BeginPlay()
@@ -47,6 +48,21 @@ void AQuestManager::BeginPlay()
 			Quests[Keys[i]]->OnCompleteQuest.AddDynamic(this, &AQuestManager::OnQuestCompleted);
 		}
 	}
+	if(Data)
+	{
+		RowNames = Data->GetRowNames();
+		FString Context = "Get first Quest";
+		FQuestData* Row = Data->FindRow<FQuestData>(RowNames[0], Context);
+		if(Row)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ROW DATA: %s"), *Row->Name.ToString())
+		}
+		for(const FName &Name : RowNames)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Names: %s"), *Name.ToString())
+		}
+	}
+
 }
 
 AQuest* AQuestManager::GetQuestByName(FName Name)

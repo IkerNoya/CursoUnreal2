@@ -8,18 +8,15 @@ FName FQuestData::GetQuestName()
 void FQuestData::CheckQuestStatus(FQuestCheckList CheckList)
 {
 	bool bShouldQuestBeCompleted = true;
-	for(UObjectiveBase* Objective : Objectives)
+	for (FObjectiveStruct& Objective : Objectives)
 	{
-		if(Objective)
+		Objective.CheckData(CheckList);
+		if (!Objective.bIsComplete)
 		{
-			Objective->CheckData(CheckList);
-			if(!Objective->bIsCompleted)
-			{
-				bShouldQuestBeCompleted = false;
-			}
+			bShouldQuestBeCompleted = false;
 		}
 	}
-	if(bShouldQuestBeCompleted)
+	if (bShouldQuestBeCompleted)
 	{
 		CompleteQuest();
 	}
