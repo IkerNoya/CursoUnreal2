@@ -20,6 +20,7 @@ void AQuestManager::ActivateQuest(AQuest* Quest)
 	if (ActiveQuests.Num() < MaxActiveQuest && Quest->GetQuestState() == EQuestState::Inactive)
 	{
 		Quest->SetQuestState(EQuestState::Active);
+		
 		ActiveQuests.Add(Quest);
 	}
 	else
@@ -31,10 +32,11 @@ void AQuestManager::ActivateQuest(AQuest* Quest)
 
 void AQuestManager::ActivateQuest(FQuestData& Quest)
 {
-	if(ActiveQuestData.Num() < MaxActiveQuest && Quest.GetState() == EQuestState::Inactive)
+	if(CurrentActiveQuests < MaxActiveQuest && Quest.GetState() == EQuestState::Inactive)
 	{
 		Quest.SetQuestState(Active);
-		ActiveQuestData.Add(Quest);
+		//ActiveQuestData.Add(Quest);
+		CurrentActiveQuests++;
 	}
 	else
 	{
@@ -135,8 +137,8 @@ void AQuestManager::AddQuest(FQuestData NewQuest)
 		TArray<int32> Ids;
 		QuestStructMap.GenerateKeyArray(Ids);
 		int32 NewId = FMath::Max(Ids) + 1;
-		ActivateQuest(NewQuest);
 		QuestStructMap.Add(NewId, NewQuest);
+		ActivateQuest(QuestStructMap[NewId]);
 	}	
 }
 
@@ -162,8 +164,19 @@ void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 		}
 	}
 	TArray<int32> Ids;
+	TArray<int32> DataIds;
 	Quests.GenerateKeyArray(Ids);
+	QuestStructMap.GenerateKeyArray(DataIds);
 	Ids.Sort();
+	DataIds.Sort();
+	for (int32 Id : DataIds)
+	{
+		if (QuestStructMap[Id].CheckInitialized() && QuestStructMap[Id].GetState() == EQuestState::Active)
+		{
+			QuestStructMap[Id].CheckQuestStatus(CheckList);
+		}
+	}
+	
 	for (int32 Id : Ids)
 	{
 		if (Quests.Contains(Id))
@@ -173,6 +186,17 @@ void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 				ActiveQuests.Remove(Quests[Id]);
 			}
 		}
-
 	}
+}
+bool AQuestManager::CheckIfStructExist(TArray<FQuestData>& Array, FQuestData& ToCheck, int32& Index)
+{
+	for(int i = 0; i < Array.Num(); i++)
+	{
+		if(Array[i].Name == ToCheck.Name && Array[i].Objectives.Num() == ToCheck.Objectives.Num())
+		{
+			Index = i;
+			return true;
+		}
+	}
+	return false;
 }

@@ -41,8 +41,10 @@ public:
 
 	void CheckData(FQuestCheckList List)
 	{
-		if (CheckList.KillCounter == List.KillCounter && CheckList.InteractedObject == List.InteractedObject &&
-			CheckList.DistanceTraveled == List.DistanceTraveled)
+		UE_LOG(LogTemp, Warning, TEXT("Kill: %d"), List.KillCounter);
+		UE_LOG(LogTemp, Warning, TEXT("Distance: %f"), List.DistanceTraveled);
+		if (List.KillCounter >= CheckList.KillCounter && List.InteractedObject == CheckList.InteractedObject &&
+			List.DistanceTraveled >= CheckList.DistanceTraveled)
 		{
 			bIsComplete=true;
 		}

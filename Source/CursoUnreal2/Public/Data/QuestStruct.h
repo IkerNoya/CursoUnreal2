@@ -16,7 +16,8 @@ enum EQuestState
 USTRUCT(BlueprintType)
 struct FQuestData : public FTableRowBase
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	FName Name;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
@@ -24,8 +25,6 @@ struct FQuestData : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TEnumAsByte<EQuestState> State;
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
-	// FDataTableRowHandle RowHandle;
 
 	FQuestData()
 	{

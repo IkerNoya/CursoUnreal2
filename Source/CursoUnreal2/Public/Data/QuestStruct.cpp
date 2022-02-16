@@ -21,6 +21,7 @@ void FQuestData::CheckQuestStatus(FQuestCheckList CheckList)
 			bShouldQuestBeCompleted = false;
 		}
 	}
+	
 	if (bShouldQuestBeCompleted)
 	{
 		CompleteQuest();
