@@ -14,26 +14,37 @@ UCLASS()
 class CURSOUNREAL2_API AQuestManager : public AActor
 {
 	GENERATED_BODY()
+	
+	UPROPERTY()
+	TArray<FName> RowNames;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
 	AMainHUD* Hud;
 
 public:
+	//ACTOR------------------------------------------------------	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
 	TMap<int32, AQuest*> Quests;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<AQuest*> ActiveQuests;
+
+	//DATA TABLE--------------------------------------------------
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
+	TMap<int32, FQuestData> QuestStructMap;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
+	TArray<FQuestData> ActiveQuestData;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	UDataTable* Data;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Data)
-	TArray<FName> RowNames;
+
 	UPROPERTY(BlueprintReadOnly, Category = Quest)
 	int32 MaxActiveQuest = 3;
  
 	AQuestManager();
 private:
 	void ActivateQuest(AQuest* Quest);
+	void ActivateQuest(FQuestData& Quest);
 protected:
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = Quest)
@@ -46,6 +57,9 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void AddQuest(AQuest* NewQuest);
+	
+	void AddQuest(FQuestData NewQuest);
+	
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void RemoveQuest(int32 Id);
 	void CheckQuestStatus(FQuestCheckList CheckList);

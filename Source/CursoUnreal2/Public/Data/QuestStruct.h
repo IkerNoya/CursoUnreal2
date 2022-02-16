@@ -22,17 +22,18 @@ struct FQuestData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<FObjectiveStruct> Objectives;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
-	TEnumAsByte<EQuestState> State;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
-	FDataTableRowHandle RowHandle;
+	TEnumAsByte<EQuestState> State;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
+	// FDataTableRowHandle RowHandle;
 
 	FQuestData()
 	{
-		Name = "";
+		Name = NAME_None;
 
 		State = Inactive;
 	}
+	bool CheckInitialized();
 	
 	FName GetQuestName();
 	

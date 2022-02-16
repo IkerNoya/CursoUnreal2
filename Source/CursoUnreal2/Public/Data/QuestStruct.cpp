@@ -1,5 +1,10 @@
 ﻿#include "QuestStruct.h"
 
+bool FQuestData::CheckInitialized()
+{
+	return Name != NAME_None && Objectives.Num()>0;
+}
+
 FName FQuestData::GetQuestName()
 {
 	return Name;
