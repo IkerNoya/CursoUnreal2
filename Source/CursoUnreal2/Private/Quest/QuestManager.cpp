@@ -4,7 +4,8 @@
 #include "Quest/QuestManager.h"
 
 #include "Kismet/GameplayStatics.h"
-
+//CheckList
+//Switch - Ni a palo!
 
 AQuestManager::AQuestManager()
 {
@@ -30,12 +31,12 @@ void AQuestManager::ActivateQuest(AQuest* Quest)
 	
 }
 
-void AQuestManager::ActivateQuest(FQuestData& Quest)
+void AQuestManager::ActivateQuest(int32 QuestId)
 {
-	if(CurrentActiveQuests < MaxActiveQuest && Quest.GetState() == EQuestState::Inactive)
+	if(CurrentActiveQuests < MaxActiveQuest && QuestStructMap[QuestId].GetState() == EQuestState::Inactive)
 	{
-		Quest.SetQuestState(Active);
-		//ActiveQuestData.Add(Quest);
+		QuestStructMap[QuestId].SetQuestState(Active);
+		ActiveQuestKeys.Add(QuestId);
 		CurrentActiveQuests++;
 	}
 	else
@@ -69,24 +70,22 @@ void AQuestManager::BeginPlay()
 		FString Context = "Get Quest";
 		for(FName RowName : RowNames)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("NAMES: %s"), *RowName.ToString());
 			FQuestData* Row = Data->FindRow<FQuestData>(RowName, Context);
 			if(Row)
 			{
 				AddQuest(*Row);
 			}
 		}
-		
+		QuestStructMap.GenerateKeyArray(QuestIds);
+		QuestIds.Sort();
 	}
+	
 
 }
 
 AQuest* AQuestManager::GetQuestByName(FName Name)
 {
-	TArray<int32> Ids;
-	Quests.GenerateKeyArray(Ids);
-	Ids.Sort();
-	for (int32 Id : Ids)
+	for (int32 Id : QuestIds)
 	{
 		if (Quests.Contains(Id) && Quests[Id] && Quests[Id]->GetQuestName() == Name)
 		{
@@ -94,6 +93,33 @@ AQuest* AQuestManager::GetQuestByName(FName Name)
 		}
 	}
 	return nullptr;
+}
+
+int32 AQuestManager::GetQuestIdFromName(FName Name)
+{
+	for(int32 Key : QuestIds)
+	{
+		if(QuestStructMap[Key].Name == Name)
+		{
+			return Key;
+		}
+	}
+	return -1;
+}
+
+FQuestData& AQuestManager::GetQuestDataByName(FName Name)
+{
+	TArray<int32> Keys;
+	QuestStructMap.GenerateKeyArray(Keys);
+	for (int32 Key : Keys)
+	{
+		if(QuestStructMap.Contains(Key) && QuestStructMap[Key].Name == Name)
+		{
+			return QuestStructMap[Key];
+		}
+	}
+	FQuestData QuestData = FQuestData();
+	return QuestData;
 }
 
 AQuest* AQuestManager::GetQuestById(int32 QuestId)
@@ -120,6 +146,7 @@ void AQuestManager::AddQuest(AQuest* NewQuest)
 		TArray<int32> Ids;
 		Quests.GenerateKeyArray(Ids);
 		int32 Id = FMath::Max(Ids) + 1;
+		UE_LOG(LogTemp, Warning, TEXT("Id: %d"), Id);
 		ActivateQuest(NewQuest);
 		NewQuest->OnCompleteQuest.AddDynamic(this, &AQuestManager::OnQuestCompleted);
 		Quests.Add(Id, NewQuest);
@@ -134,11 +161,14 @@ void AQuestManager::AddQuest(FQuestData NewQuest)
 {
 	if(NewQuest.CheckInitialized())
 	{
-		TArray<int32> Ids;
-		QuestStructMap.GenerateKeyArray(Ids);
-		int32 NewId = FMath::Max(Ids) + 1;
+		TArray<int32> Keys;
+		QuestStructMap.GenerateKeyArray(Keys);
+		int32 NewId = FMath::Max(Keys) + 1;
 		QuestStructMap.Add(NewId, NewQuest);
-		ActivateQuest(QuestStructMap[NewId]);
+		if(QuestStructMap[NewId].bActivateOnStart)
+		{
+			ActivateQuest(NewId);
+		}
 	}	
 }
 
@@ -164,12 +194,9 @@ void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 		}
 	}
 	TArray<int32> Ids;
-	TArray<int32> DataIds;
 	Quests.GenerateKeyArray(Ids);
-	QuestStructMap.GenerateKeyArray(DataIds);
 	Ids.Sort();
-	DataIds.Sort();
-	for (int32 Id : DataIds)
+	for (int32 Id : ActiveQuestKeys)
 	{
 		if (QuestStructMap[Id].CheckInitialized() && QuestStructMap[Id].GetState() == EQuestState::Active)
 		{
@@ -187,16 +214,16 @@ void AQuestManager::CheckQuestStatus(FQuestCheckList CheckList)
 			}
 		}
 	}
-}
-bool AQuestManager::CheckIfStructExist(TArray<FQuestData>& Array, FQuestData& ToCheck, int32& Index)
-{
-	for(int i = 0; i < Array.Num(); i++)
+	for(int32 Id : QuestIds)
 	{
-		if(Array[i].Name == ToCheck.Name && Array[i].Objectives.Num() == ToCheck.Objectives.Num())
+		if(ActiveQuestKeys.Contains(Id) && QuestStructMap[Id].GetState() == EQuestState::Completed)
 		{
-			Index = i;
-			return true;
+			int32 QuestToActivateKey = GetQuestIdFromName(QuestStructMap[Id].QuestToActivateName);
+			if(QuestToActivateKey >= 0)
+			{
+				ActivateQuest(QuestToActivateKey);
+			}
+			ActiveQuestKeys.Remove(Id);
 		}
 	}
-	return false;
 }

@@ -30,6 +30,8 @@ private:
 	float DistanceTraveled = 0.f;
 
 public:
+	virtual ~FObjectiveStruct() = default;
+
 	FObjectiveStruct()
 	{
 		Description = "";
@@ -39,10 +41,8 @@ public:
 		bIsComplete = false;
 	}
 
-	void CheckData(FQuestCheckList List)
+	virtual void CheckData(FQuestCheckList List)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Kill: %d"), List.KillCounter);
-		UE_LOG(LogTemp, Warning, TEXT("Distance: %f"), List.DistanceTraveled);
 		if (List.KillCounter >= CheckList.KillCounter && List.InteractedObject == CheckList.InteractedObject &&
 			List.DistanceTraveled >= CheckList.DistanceTraveled)
 		{

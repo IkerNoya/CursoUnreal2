@@ -8,6 +8,20 @@
 #include "UI/MainHUD.h"
 #include "QuestManager.generated.h"
 
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
+//TODO: KISS
 
 class UQuestDataAsset;
 UCLASS()
@@ -19,6 +33,8 @@ class CURSOUNREAL2_API AQuestManager : public AActor
 	TArray<FName> RowNames;
 	UPROPERTY()
 	int32 CurrentActiveQuests = 0;
+	UPROPERTY()
+	TArray<int32> QuestIds;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = HUD)
@@ -32,10 +48,11 @@ public:
 	TArray<AQuest*> ActiveQuests;
 
 	//DATA TABLE--------------------------------------------------
+	//Por que repetir data, si puedo usar la key del mapa
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TMap<int32, FQuestData> QuestStructMap;
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
-	// TArray<FQuestData> ActiveQuestData;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
+	TArray<int32> ActiveQuestKeys;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	UDataTable* Data;
@@ -52,6 +69,11 @@ protected:
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	AQuest* GetQuestByName(FName Name);
+	
+	int32 GetQuestIdFromName(FName Name);
+
+	FQuestData& GetQuestDataByName(FName Name);
+	
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	AQuest* GetQuestById(int32 QuestId);
 	UFUNCTION()
@@ -66,7 +88,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void ActivateQuest(AQuest* Quest);
 	
-	void ActivateQuest(FQuestData& Quest);
+	void ActivateQuest(int32 QuestId);
 	
 	UFUNCTION(BlueprintCallable, Category = Quest)
 	void RemoveQuest(int32 Id);
