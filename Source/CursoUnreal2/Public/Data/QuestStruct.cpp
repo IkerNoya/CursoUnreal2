@@ -17,7 +17,7 @@ void FQuestData::CheckQuestStatus(FQuestCheckList CheckList)
 	{
 		Objective.CheckData(CheckList);
 		if (!Objective.bIsComplete)
-		{
+		{ 
 			bShouldQuestBeCompleted = false;
 		}
 	}

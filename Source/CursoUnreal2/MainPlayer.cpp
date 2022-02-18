@@ -262,7 +262,10 @@ void AMainPlayer::Interact()
 
 void AMainPlayer::ActivatePause()
 {
-	Pause.Broadcast();
+	if(Pause.IsBound())
+	{
+		Pause.Broadcast();
+	}
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 

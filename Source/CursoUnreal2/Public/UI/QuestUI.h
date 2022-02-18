@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MainHUD.h"
 #include "ObjectiveUI.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
@@ -19,11 +18,15 @@ UCLASS()
 class CURSOUNREAL2_API UQuestUI : public UUserWidget
 {
 	GENERATED_BODY()
+	
+	bool bHasCreatedObjectives=false;
+	int32 ObjectiveSize = 0;
+	
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UCanvasPanel* Canvas;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = UI)
-	AMainHUD* Hud;
+	class AMainHUD* Hud;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UVerticalBox* QuestBox;
 
@@ -33,10 +36,17 @@ public:
 	UTextBlock* QuestTitle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quests, meta = (ExposeOnSpawn = true))
 	AQuest* Quest;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quests, meta = (ExposeOnSpawn = true))
+	FQuestData QuestData;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
+	TArray<UObjectiveUI*> Objectives;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
+	TSubclassOf<UObjectiveUI> ObjectiveWidget;
+	
 	virtual void NativeConstruct() override;
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = Quests)
-	void CreateObjectives(AQuest* QuestObjective);
+	UFUNCTION(BlueprintCallable, Category = Quests)
+	void CreateObjectives(FQuestData& QuestObjective);
 	
 };

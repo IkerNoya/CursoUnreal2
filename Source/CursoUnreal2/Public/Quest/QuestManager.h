@@ -41,14 +41,6 @@ protected:
 	AMainHUD* Hud;
 
 public:
-	//ACTOR------------------------------------------------------	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)
-	TMap<int32, AQuest*> Quests;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
-	TArray<AQuest*> ActiveQuests;
-
-	//DATA TABLE--------------------------------------------------
-	//Por que repetir data, si puedo usar la key del mapa
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
 	TMap<int32, FQuestData> QuestStructMap;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Quest)
@@ -61,36 +53,20 @@ public:
 	int32 MaxActiveQuest = 3;
  
 	AQuestManager();
-private:
-	bool CheckIfStructExist(TArray<FQuestData>& Array, FQuestData& ToCheck, int32& Index);
-	void UpdateMainQuestMap(int32 Id, FQuestData NewData);
 	
 protected:
 	virtual void BeginPlay() override;
-	UFUNCTION(BlueprintCallable, Category = Quest)
-	AQuest* GetQuestByName(FName Name);
 	
 	int32 GetQuestIdFromName(FName Name);
 
-	FQuestData& GetQuestDataByName(FName Name);
-	
-	UFUNCTION(BlueprintCallable, Category = Quest)
-	AQuest* GetQuestById(int32 QuestId);
-	UFUNCTION()
-	void OnQuestCompleted(AQuest* Quest);
-
 public:
-	UFUNCTION(BlueprintCallable, Category = Quest)
-	void AddQuest(AQuest* NewQuest);
 
 	void AddQuest(FQuestData NewQuest);
 	
-	UFUNCTION(BlueprintCallable, Category = Quest)
-	void ActivateQuest(AQuest* Quest);
-	
 	void ActivateQuest(int32 QuestId);
+
+	FQuestData& GetQuestFromId(int32 Id);
+	FQuestData& GetQuestDataByName(FName Name);
 	
-	UFUNCTION(BlueprintCallable, Category = Quest)
-	void RemoveQuest(int32 Id);
 	void CheckQuestStatus(FQuestCheckList CheckList);
 };

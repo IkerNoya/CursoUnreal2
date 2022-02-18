@@ -1,10 +1,12 @@
 ﻿#pragma once
+
 #include "Engine/DataTable.h"
-#include "Quest/Objectives/ObjectiveBase.h"
 #include "Quest/Objectives/ObjectiveStruct.h"
 
 #include "QuestStruct.generated.h"
 
+class FStructBaseChain;
+class UObjective;
 UENUM(BlueprintType)
 enum EQuestState
 {
@@ -21,6 +23,7 @@ struct FQuestData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	FName Name;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<FObjectiveStruct> Objectives;
 

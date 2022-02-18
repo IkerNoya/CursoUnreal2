@@ -8,6 +8,19 @@ void UObjectiveUI::SetObjective(FString Objective)
 	ObjectiveDesc = Objective;
 }
 
+void UObjectiveUI::UpdateDescription(FObjectiveStruct &Objective)
+{
+	FString Desc = FString::Printf(TEXT("%s [%d/%d]"), *Objective.Description, 0,1);
+	if(Description)
+	{
+		Description->SetText(FText::FromString(Desc));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning,TEXT("No description TExt"));
+	}
+}
+
 FString UObjectiveUI::GetObjective()
 {
 	return ObjectiveDesc;
