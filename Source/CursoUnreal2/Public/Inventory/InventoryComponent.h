@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "CursoUnreal2/EscapeRoom/InteractComponent.h"
 #include "InventoryComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
@@ -15,8 +16,11 @@ class CURSOUNREAL2_API	UInventoryComponent : public UActorComponent
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 	FVector DropOffset = FVector::ZeroVector;
+
 	
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	UInteractComponent* InteractComponent;
 	UPROPERTY(EditDefaultsOnly, Instanced)
 	TArray<class UItem*> DefaultItems;
 	UPROPERTY(EditDefaultsOnly, Category=Inventory)
@@ -34,10 +38,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	bool AddItem(class UItem* Item);
+	UFUNCTION()
+	bool AddItem(UItem* Item);
+	UFUNCTION()
+	void AddBlueprintItem(TSubclassOf<UItem> Item);
 	
 	UFUNCTION(BlueprintCallable)
-	bool RemoveItem(class UItem* Item);
+	bool RemoveItem(UItem* Item);
 	UFUNCTION(BlueprintCallable)
-	bool RemoveAndDeleteItem(class UItem* Item);
+	bool RemoveAndDeleteItem(UItem* Item);
 };

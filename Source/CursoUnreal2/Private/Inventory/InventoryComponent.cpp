@@ -14,11 +14,19 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	InteractComponent = GetOwner()->FindComponentByClass<UInteractComponent>();
 	for (auto& Item : DefaultItems)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("ITEM NAME: %s"), *Item->GetName());
 		AddItem(Item);
+	}
+	if (InteractComponent)
+	{
+		InteractComponent->SendPickableObject.AddDynamic(this, &UInventoryComponent::AddBlueprintItem);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find Interact component in %s"), *GetName())
 	}
 }
 
@@ -37,16 +45,32 @@ bool UInventoryComponent::AddItem(UItem* Item)
 	return true;
 }
 
+void UInventoryComponent::AddBlueprintItem(TSubclassOf<UItem> Item)
+{
+	if (Items.Num() >= Capacity || !Item)
+	{
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Adding Item"))
+	UItem* NewItem = NewObject<UItem>(this, Item);
+	if(NewItem)
+	{
+		NewItem->OwningInventory=this;
+		NewItem->World = GetWorld();
+		Items.Add(NewItem);
+	}
+}
+
 bool UInventoryComponent::RemoveItem(UItem* Item)
 {
-	if(Item)
+	if (Item)
 	{
 		Item->SpawnActor(GetOwner()->GetActorLocation() + DropOffset);
-		Item->OwningInventory=nullptr;
-		Item->World=nullptr;
-		if(ItemEquipped==Item)
+		Item->OwningInventory = nullptr;
+		Item->World = nullptr;
+		if (ItemEquipped == Item)
 		{
-			ItemEquipped=nullptr;
+			ItemEquipped = nullptr;
 		}
 		Items.RemoveSingle(Item);
 		OnInventoryUpdated.Broadcast();
@@ -57,13 +81,13 @@ bool UInventoryComponent::RemoveItem(UItem* Item)
 
 bool UInventoryComponent::RemoveAndDeleteItem(UItem* Item)
 {
-	if(Item)
+	if (Item)
 	{
-		Item->OwningInventory=nullptr;
-		Item->World=nullptr;
-		if(ItemEquipped==Item)
+		Item->OwningInventory = nullptr;
+		Item->World = nullptr;
+		if (ItemEquipped == Item)
 		{
-			ItemEquipped=nullptr;
+			ItemEquipped = nullptr;
 		}
 		Items.RemoveSingle(Item);
 		OnInventoryUpdated.Broadcast();

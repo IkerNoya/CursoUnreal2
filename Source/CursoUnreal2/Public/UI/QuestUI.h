@@ -7,8 +7,8 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/CanvasPanel.h"
 #include "Components/TextBlock.h"
+#include "Data/QuestStruct.h"
 #include "Components/VerticalBox.h"
-#include "Quest/Quest.h"
 #include "QuestUI.generated.h"
 
 /**
@@ -34,8 +34,6 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
 	UTextBlock* QuestTitle;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quests, meta = (ExposeOnSpawn = true))
-	AQuest* Quest;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quests, meta = (ExposeOnSpawn = true))
 	FQuestData QuestData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Quest)

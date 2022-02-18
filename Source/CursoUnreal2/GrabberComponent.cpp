@@ -7,6 +7,7 @@
 #include "GameFramework/GameSession.h"
 
 #define OUT // No hace nada, le agrega legibilidad
+#define ECC_Pickabel          ECC_GameTraceChannel3
 #define ECC_Connectable       ECC_GameTraceChannel2
 #define ECC_Interactable      ECC_GameTraceChannel1
 
@@ -41,7 +42,8 @@ FHitResult UGrabberComponent::GetFirstPhysicsBodyInReach()
 {
 	FHitResult Hit;
 	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, GetPlayerReach(), FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_Connectable) | ECC_TO_BITFIELD(ECC_Interactable)), TraceParams);
+	FCollisionObjectQueryParams ObjectParams = FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_Connectable) | ECC_TO_BITFIELD(ECC_Interactable) | ECC_TO_BITFIELD(ECC_Pickabel));
+	GetWorld()->LineTraceSingleByObjectType(OUT  Hit, PlayerLocation, GetPlayerReach(), ObjectParams, TraceParams);
 	
 	return Hit;
 }

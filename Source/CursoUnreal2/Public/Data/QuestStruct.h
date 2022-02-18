@@ -26,7 +26,7 @@ struct FQuestData : public FTableRowBase
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TArray<FObjectiveStruct> Objectives;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Quest)
 	TEnumAsByte<EQuestState> State;
 

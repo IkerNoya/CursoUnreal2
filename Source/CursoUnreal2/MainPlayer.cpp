@@ -36,7 +36,7 @@ AMainPlayer::AMainPlayer()
 
 void AMainPlayer::CheckIfPlayerIsInGrabbingDistance()
 {
-	if(Grabber && !Grabber->bIsObjectGrabbed)
+	if (Grabber && !Grabber->bIsObjectGrabbed)
 	{
 		FVector Location;
 		FRotator Rotation;
@@ -45,16 +45,18 @@ void AMainPlayer::CheckIfPlayerIsInGrabbingDistance()
 		FVector PlayerReach = Location + Rotation.Vector() * Grabber->Reach;
 		FHitResult Hit;
 		FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
-		if(GetWorld()->LineTraceSingleByObjectType(OUT  Hit, Location, PlayerReach, FCollisionObjectQueryParams(ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_GameTraceChannel1) | ECC_TO_BITFIELD(ECC_GameTraceChannel2)), TraceParams))
+		FCollisionObjectQueryParams ObjectType = FCollisionObjectQueryParams(
+			ECC_TO_BITFIELD(ECC_PhysicsBody) | ECC_TO_BITFIELD(ECC_GameTraceChannel1) |
+			ECC_TO_BITFIELD(ECC_GameTraceChannel2) | ECC_TO_BITFIELD(ECC_GameTraceChannel3));
+		if (GetWorld()->LineTraceSingleByObjectType(OUT Hit, Location, PlayerReach, ObjectType, TraceParams))
 		{
-			bIsObjectInGrabbingDistance=true;
+			bIsObjectInGrabbingDistance = true;
 		}
 		else
 		{
-			bIsObjectInGrabbingDistance=false;
+			bIsObjectInGrabbingDistance = false;
 		}
 	}
-
 }
 
 void AMainPlayer::PostInitializeComponents()
@@ -88,13 +90,13 @@ float AMainPlayer::TakeDamage(float DamageAmount, FDamageEvent const& DamageEven
 {
 	Hp -= DamageAmount;
 	DecreaseHp.Broadcast();
-	if(Hp<=0)
+	if (Hp <= 0)
 	{
 		GameOver.Broadcast();
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 	}
 	UOutOfMapDamage* Damage = Cast<UOutOfMapDamage>(DamageEvent.DamageTypeClass->GetDefaultObject());
-	if(Damage)
+	if (Damage)
 	{
 		Respawn.Broadcast(this);
 	}
@@ -262,7 +264,7 @@ void AMainPlayer::Interact()
 
 void AMainPlayer::ActivatePause()
 {
-	if(Pause.IsBound())
+	if (Pause.IsBound())
 	{
 		Pause.Broadcast();
 	}

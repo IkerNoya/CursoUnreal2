@@ -8,7 +8,6 @@ void UInteractionTask::SetDelegates()
 	Super::SetDelegates();
 	if(InteractComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("INGRESANDO"))
 		InteractComponent->SendInteractedObject.AddDynamic(this, &UInteractionTask::GetInteractedObject);
 	}
 }

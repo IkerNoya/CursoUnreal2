@@ -3,25 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Quest.h"
+#include "Data/QuestStruct.h"
 #include "GameFramework/Actor.h"
 #include "UI/MainHUD.h"
 #include "QuestManager.generated.h"
-
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
-//TODO: KISS
 
 class UQuestDataAsset;
 UCLASS()
