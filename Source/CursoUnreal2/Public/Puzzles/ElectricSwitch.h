@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ElectricityInterface.h"
+#include "Interface/ElectricityInterface.h"
 #include "Components/TextRenderComponent.h"
 #include "CursoUnreal2/EscapeRoom/SwitchBase.h"
 #include "ElectricSwitch.generated.h"

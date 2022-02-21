@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ElectricityInterface.h"
+#include "Interface/ElectricityInterface.h"
 #include "GameFramework/Actor.h"
 #include "Items/ItemBase.h"
 #include "BasketBallPuzzle.generated.h"

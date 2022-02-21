@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActivationInterface.h"
-#include "InteractionInterface.h"
+#include "Interface/ActivationInterface.h"
+#include "Interface/InteractionInterface.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "PreassurePlateBase.generated.h"

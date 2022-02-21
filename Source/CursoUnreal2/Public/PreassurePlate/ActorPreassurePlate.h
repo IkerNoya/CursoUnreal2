@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ElectricityInterface.h"
+#include "Interface/ElectricityInterface.h"
 #include "Items/ItemBase.h"
 #include "PreassurePlate/PreassurePlateBase.h"
 #include "ActorPreassurePlate.generated.h"

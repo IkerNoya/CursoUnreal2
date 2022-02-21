@@ -50,7 +50,6 @@ void UInventoryComponent::AddBlueprintItem(TSubclassOf<UItem> Item)
 	{
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Adding Item"))
 	UItem* NewItem = NewObject<UItem>(this, Item);
 	if(NewItem)
 	{

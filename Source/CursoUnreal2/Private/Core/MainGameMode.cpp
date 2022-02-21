@@ -31,10 +31,6 @@ void AMainGameMode::BeginPlay()
 			NextLevelName = GameInstance->LevelNames[0];
 		}
 	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("NO HAY GAMEINSTANCE PAPI"));
-	}
 	if (Player)
 	{
 		Player->Pause.AddDynamic(this, &AMainGameMode::ActivatePause);
@@ -42,17 +38,17 @@ void AMainGameMode::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't get player character class"));
+		UE_LOG(LogTemp, Error, TEXT("Couldn't get player character class in %s"), *GetName());
 	}
 	if (!Hud)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't cast hud"));
+		UE_LOG(LogTemp, Error, TEXT("Couldn't cast hud in %s"), *GetName());
 	}
 
 	PlayerStart = FindPlayerStart(GetWorld()->GetFirstPlayerController());
 	if (!PlayerStart)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Couldn't find player start"));
+		UE_LOG(LogTemp, Error, TEXT("Couldn't find player start in %s"), *GetName());
 	}
 }
 
@@ -94,7 +90,7 @@ void AMainGameMode::RespawnPlayer(AMainPlayer* Player)
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("No player start"));
+			UE_LOG(LogTemp, Error, TEXT("No player start in %s"), *GetName());
 		}
 	}
 }
@@ -103,7 +99,6 @@ AQuestManager* AMainGameMode::GetQuestManager()
 {
 	if (IsValid(QuestManager))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Already has a quest manager"));
 		return QuestManager;
 	}
 
@@ -112,8 +107,6 @@ AQuestManager* AMainGameMode::GetQuestManager()
 		UGameplayStatics::GetActorOfClass(GetWorld(), AQuestManager::StaticClass()));
 	if (AuxiliaryQuestManager)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Found quest manager"));
-
 		QuestManager = AuxiliaryQuestManager;
 		return QuestManager;
 	}
@@ -122,10 +115,9 @@ AQuestManager* AMainGameMode::GetQuestManager()
 	AuxiliaryQuestManager = Cast<AQuestManager>(Actor);
 	if (AuxiliaryQuestManager)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Created a quest manager"));
 		QuestManager = AuxiliaryQuestManager;
 		return QuestManager;
 	}
-	UE_LOG(LogTemp, Error, TEXT("Couldn`t get QuestManager"));
+	UE_LOG(LogTemp, Error, TEXT("Couldn`t get QuestManager in %s"), *GetName());
 	return nullptr;
 }

@@ -17,7 +17,7 @@ void UObjectiveUI::UpdateDescription(FObjectiveStruct &Objective)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning,TEXT("No description TExt"));
+		UE_LOG(LogTemp, Warning,TEXT("No description Text"));
 	}
 }
 

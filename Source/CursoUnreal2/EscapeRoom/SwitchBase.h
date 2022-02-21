@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActivationInterface.h"
+#include "Interface/ActivationInterface.h"
 #include "Components/BoxComponent.h"
-#include "CursoUnreal2/Public/InteractionInterface.h"
+#include "Interface/InteractionInterface.h"
 #include "GameFramework/Actor.h"
 #include "SwitchBase.generated.h"
 

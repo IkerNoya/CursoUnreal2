@@ -11,7 +11,6 @@ UItem::UItem()
 
 void UItem::Use(AMainPlayer* Player)
 {
-	UE_LOG(LogTemp, Warning, TEXT("EXAMPLE USE"));
 }
 
 void UItem::SpawnActor(FVector Position)

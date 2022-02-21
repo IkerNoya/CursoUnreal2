@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractionInterface.h"
+#include "Interface/InteractionInterface.h"
 #include "../EscapeRoom/DoorBase.h"
 #include "Player/MainPlayer.h"
 #include "KeyDoor.generated.h"

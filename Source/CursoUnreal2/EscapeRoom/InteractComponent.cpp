@@ -3,7 +3,7 @@
 
 #include "InteractComponent.h"
 
-#include "InteractionInterface.h"
+#include "Interface/InteractionInterface.h"
 #include "ToolContextInterfaces.h"
 #include "Items/Item.h"
 

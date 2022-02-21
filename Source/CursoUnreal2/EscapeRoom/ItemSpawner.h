@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActivationInterface.h"
+#include "Interface/ActivationInterface.h"
 #include "GameFramework/Actor.h"
 #include "ItemSpawner.generated.h"
 

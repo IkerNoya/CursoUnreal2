@@ -19,7 +19,6 @@ void UQuestUI::NativeConstruct()
 	if (QuestData.CheckInitialized())
 	{
 		CreateObjectives(QuestData);
-		UE_LOG(LogTemp, Warning, TEXT("ENTRO En QUEST"));
 	}
 }
 
@@ -39,7 +38,7 @@ void UQuestUI::CreateObjectives(FQuestData& QuestObjective)
 			}
 			else
 			{
-				UE_LOG(LogTemp, Error, TEXT("NO QUEST TITLE"));
+				UE_LOG(LogTemp, Error, TEXT("Quest title text in %s is null"), *GetName());
 			}
 			for(FObjectiveStruct& Objective : QuestData.Objectives)
 			{
@@ -52,7 +51,7 @@ void UQuestUI::CreateObjectives(FQuestData& QuestObjective)
 				}
 				else
 				{
-					UE_LOG(LogTemp, Error, TEXT("No Vertical Box"));
+					UE_LOG(LogTemp, Error, TEXT("Vertical box in %s is null"), *GetName());
 				}
 				bHasCreatedObjectives=true;
 			}

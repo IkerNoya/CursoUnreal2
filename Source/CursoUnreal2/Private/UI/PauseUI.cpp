@@ -35,9 +35,5 @@ void UPauseUI::NativeConstruct()
 				}
 			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("No HUD/ActiveQuestBox/CompleteQuestBox"));
-		}
 	}
 }

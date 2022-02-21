@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ActivationInterface.h"
+#include "Interface/ActivationInterface.h"
 #include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "DoorBase.generated.h"

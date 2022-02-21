@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InteractionInterface.h"
+#include "Interface/InteractionInterface.h"
 #include "Components/ActorComponent.h"
 #include "Items/ItemBase.h"
 #include "InteractComponent.generated.h"
