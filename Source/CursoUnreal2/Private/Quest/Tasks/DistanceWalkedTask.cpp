@@ -4,7 +4,7 @@
 #include "Quest/Tasks/DistanceWalkedTask.h"
 
 
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "Quest/UserQuestComponent.h"
 
 void UDistanceWalkedTask::SetDelegates()

@@ -3,7 +3,7 @@
 
 #include "Quest/Tasks/KillCounterTask.h"
 
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "Quest/UserQuestComponent.h"
 
 void UKillCounterTask::SetDelegates()

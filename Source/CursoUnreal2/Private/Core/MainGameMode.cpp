@@ -4,7 +4,7 @@
 #include "Core/MainGameMode.h"
 
 #include "Core/MainGameInstance.h"
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMainGameMode::BeginPlay()

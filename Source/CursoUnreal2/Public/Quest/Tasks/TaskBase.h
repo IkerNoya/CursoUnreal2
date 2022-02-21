@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "UObject/Object.h"
 #include "Quest/QuestCheckList.h"
 #include "TaskBase.generated.h"

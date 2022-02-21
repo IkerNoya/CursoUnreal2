@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GrabberComponent.h"
+#include "Player/GrabberComponent.h"
 #include "Camera/CameraComponent.h"
-#include "EscapeRoom/InteractComponent.h"
+#include "CursoUnreal2/EscapeRoom/InteractComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Inventory/InventoryComponent.h"

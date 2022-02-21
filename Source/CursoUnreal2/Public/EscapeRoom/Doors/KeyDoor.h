@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "InteractionInterface.h"
 #include "../EscapeRoom/DoorBase.h"
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "KeyDoor.generated.h"
 
 /**

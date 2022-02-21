@@ -1,9 +1,9 @@
 // Copyright Iker Noya 2022.
 
 
-#include "GrabberComponent.h"
+#include "Player/GrabberComponent.h"
 
-#include "MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "GameFramework/GameSession.h"
 
 #define OUT // No hace nada, le agrega legibilidad

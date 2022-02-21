@@ -3,7 +3,7 @@
 
 #include "Items/ItemBase.h"
 
-#include "CursoUnreal2/MainPlayer.h"
+#include "Player/MainPlayer.h"
 #include "Items/Item.h"
 
 // Sets default values

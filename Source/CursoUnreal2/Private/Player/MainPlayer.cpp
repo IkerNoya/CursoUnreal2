@@ -1,7 +1,7 @@
 // Copyright Iker Noya 2022.
 
 
-#include "MainPlayer.h"
+#include "Player/MainPlayer.h"
 
 #include "Damage/OutOfMapDamage.h"
 #include "GameFramework/CharacterMovementComponent.h"
