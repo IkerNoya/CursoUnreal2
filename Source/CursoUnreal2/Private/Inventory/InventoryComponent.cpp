@@ -17,7 +17,6 @@ void UInventoryComponent::BeginPlay()
 	InteractComponent = GetOwner()->FindComponentByClass<UInteractComponent>();
 	for (auto& Item : DefaultItems)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ITEM NAME: %s"), *Item->GetName());
 		AddItem(Item);
 	}
 	if (InteractComponent)

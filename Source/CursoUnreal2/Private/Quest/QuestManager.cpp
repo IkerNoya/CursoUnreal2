@@ -24,7 +24,7 @@ void AQuestManager::ActivateQuest(int32 QuestId)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests in second array"));
+		UE_LOG(LogTemp, Warning, TEXT("Reached Maximum number of active quests in active quest array"));
 	}
 }
 
@@ -57,7 +57,6 @@ void AQuestManager::BeginPlay()
 		QuestStructMap.GenerateKeyArray(QuestIds);
 		QuestIds.Sort();
 	}
-	
 
 }
 
