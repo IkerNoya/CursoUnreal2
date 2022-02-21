@@ -95,6 +95,9 @@ void AQuestManager::AddQuest(FQuestData NewQuest)
 		QuestStructMap.GenerateKeyArray(Keys);
 		int32 NewId = FMath::Max(Keys) + 1;
 		QuestStructMap.Add(NewId, NewQuest);
+		//NewQuest.Objectives.Add(CreateObject(Mapa[enum].Object));
+		//newQuest.Objective[this].NeededProgress = x;
+		//newQuest.Objectives[this].Object = x;
 		if(QuestStructMap[NewId].bActivateOnStart)
 		{
 			ActivateQuest(NewId);

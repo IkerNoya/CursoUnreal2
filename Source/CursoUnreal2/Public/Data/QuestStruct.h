@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "Engine/DataTable.h"
 #include "Quest/Objectives/ObjectiveStruct.h"
 
 #include "QuestStruct.generated.h"

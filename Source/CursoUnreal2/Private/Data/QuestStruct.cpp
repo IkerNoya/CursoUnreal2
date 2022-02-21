@@ -1,4 +1,4 @@
-﻿#include "QuestStruct.h"
+﻿#include "Data/QuestStruct.h"
 
 bool FQuestData::CheckInitialized()
 {

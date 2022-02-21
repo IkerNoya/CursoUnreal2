@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 #include "Quest/QuestCheckList.h"
 #include "ObjectiveStruct.generated.h"
 
 
 USTRUCT(BlueprintType)
-struct FObjectiveStruct
+struct FObjectiveStruct : public FTableRowBase
 {
 	GENERATED_BODY()
 
